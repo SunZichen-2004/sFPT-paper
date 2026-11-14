@@ -4,8 +4,44 @@ from pathlib import Path
 import hashlib
 import json
 import numpy as np
+import torch
+from fp_transformer_torch.collective_variable import Torsion
 
 ROOT = Path(__file__).resolve().parent
+
+
+def final_cv_error(case, final, cv):
+    """Confirm recorded CVs describe the full coordinates saved beside them."""
+    if case.startswith("rearrangement"):
+        pairs = (
+            np.loadtxt(
+                ROOT / "experiments/rearrangement_water_fpt/cv_pairs.txt", dtype=int
+            )
+            - 1
+        )
+        actual = np.linalg.norm(final[:, pairs[:, 0]] - final[:, pairs[:, 1]], axis=-1)
+        error = actual - cv
+    else:
+        source = (
+            "tetra_alanine_sFPT/backbone_phi.txt"
+            if case.startswith("tetra")
+            else "dialanine_water/mm_box/backbone_cv.txt"
+            if case.startswith("dialanine_water")
+            else "dialanine/backbone_cv.txt"
+        )
+        indices = np.loadtxt(ROOT / "experiments" / source, dtype=int) - 1
+        actual = (
+            Torsion(indices)(torch.as_tensor(final, dtype=torch.float64))
+            .numpy()
+            .squeeze(-1)
+        )
+        error = np.angle(np.exp(1j * (actual - cv)))
+    maximum = float(np.abs(error).max())
+    if maximum > 2e-5:
+        raise ValueError(
+            f"{case}: stored CVs disagree with final coordinates ({maximum})"
+        )
+    return maximum
 
 
 def sha256(path):
@@ -51,6 +87,7 @@ def main():
                     raise ValueError(f"{case}: nonfinite {name}")
             if not np.array_equal(coords[-1], final.astype(coords.dtype)):
                 raise ValueError(f"{case}: final coordinates differ from last frame")
+            cv_error = final_cv_error(case, final, cv[-1])
             production = z["phase"] == "production"
             if case.endswith("sfpt"):
                 bw = z["bandwidth"][production]
@@ -72,6 +109,7 @@ def main():
                 complete=True,
                 finite_coordinates_and_cvs=True,
                 final_coordinates_match_last_frame=True,
+                final_cv_from_coordinates_max_error=cv_error,
             )
         report["cases"][case] = entry
         print(f"[verified archive] {case}", flush=True)

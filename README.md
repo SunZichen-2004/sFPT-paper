@@ -20,9 +20,10 @@ The supplied SPONGE-format alanine parameter tables encode the Amber force field
 Install the cleaned library branch alongside this repository:
 
 ```bash
+git clone https://github.com/SunZichen-2004/sFPT-paper.git
 git clone https://github.com/SunZichen-2004/fp_transformer_torch.git
 cd fp_transformer_torch
-git checkout 999b697
+git checkout 7b9ba3f
 pip install -e ".[simulation,mlip,analysis,dev]"
 cd ../sFPT-paper
 pip install -r requirements.txt
@@ -81,13 +82,15 @@ python summarize.py
 
 The analysis reconstructs the full physical joint distribution before marginalization. It reports one- and two-dimensional FES RMSE in kcal/mol, the basin free-energy difference, and its difference from both the original 25 ps calculation and the independent paper reference. Figures compare new 25 ps, original 25 ps, and long-time paper/REMD surfaces. All metrics and scientific plots are written to `reports/`.
 
-See the [benchmark results](reports/README.md) for the current comparisons. `validate_archives.py` additionally verifies all bundled molecular-input checksums, full coordinate/CV shapes and finite values, and equality of the final coordinates with the last stored frame. It records trajectory SHA-256 checksums in `reports/archive_integrity.json`.
+See the [benchmark results](reports/README.md) for the current comparisons. `validate_archives.py` additionally verifies all bundled molecular-input checksums, full coordinate/CV shapes and finite values, equality of the final coordinates with the last stored frame, and agreement of the stored final CVs with CVs recalculated from those coordinates. It records trajectory SHA-256 checksums in `reports/archive_integrity.json`.
 
 sFPT final-window lengths are 5 ps (vacuum dipeptide), 10 ps (water), 20 ps (tetrapeptide) and 4 ps (reaction). The original and new 25 ps results use identical reconstruction windows. Metadynamics uses the cumulative bias at 25 ps. RMSE masks and minimum-shift conventions are recorded with the metrics. The paper's basin-error guides are reported separately; they are not confidence intervals or proof of full FES convergence.
 
 `references/` contains compact original 25 ps CV/bandwidth or HILLS archives and the longer paper surfaces. `references/provenance.json` records their exact sources, time calibration and checksums. All eight selected original 25 ps references use seed 0, matching the requested new benchmark. The original reaction run is 89109; its seed is verified from the saved run log.
 
 A 25 ps, single-seed benchmark has a different statistical scope from the paper's multi-seed static surfaces: vacuum dipeptide 25–50 ps, water 100–200 ps, tetra-alanine 450–500 ps (and WT-MetaD 10 ns), and reaction sFPT 79–83 ps. Agreement is evaluated quantitatively; short-run completion alone does not establish agreement with the final paper FES.
+
+The paper explicitly labels the tetra-alanine REMD population estimate as preliminary, rather than a certified equilibrium reference. Its sFPT basin estimate approaches that reference around 40–60 ps. The requested 25 ps runs therefore assess the early-time reproduction, with the longer reference retained for context.
 
 The retained reaction structural postprocessing reads the same complete archive:
 

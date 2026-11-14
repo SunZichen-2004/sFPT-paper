@@ -1,0 +1,50 @@
+{
+  "joint_fes": {
+    "rmse_kcal_mol": 0.5068237373781443,
+    "offset_aligned_rmse_kcal_mol": 0.5067108120340226,
+    "points": 1001,
+    "reference_cutoff_kcal_mol": 12
+  },
+  "fes_1d_0": {
+    "rmse_kcal_mol": 0.24320616281791657,
+    "offset_aligned_rmse_kcal_mol": 0.20866750274085166,
+    "points": 10,
+    "reference_cutoff_kcal_mol": 8
+  },
+  "fes_1d_1": {
+    "rmse_kcal_mol": 0.4523490130319765,
+    "offset_aligned_rmse_kcal_mol": 0.43752279801333405,
+    "points": 83,
+    "reference_cutoff_kcal_mol": 8
+  },
+  "fes_2d_0_1": {
+    "rmse_kcal_mol": 0.5068237373781443,
+    "offset_aligned_rmse_kcal_mol": 0.5067108120340226,
+    "points": 1001,
+    "reference_cutoff_kcal_mol": 12
+  },
+  "delta_g_actual": -6.79151097038403,
+  "delta_g_original_25ps": -6.852817657630041,
+  "delta_g_difference": 0.06130668724601129,
+  "paper_reference_2d_fes": {
+    "rmse_kcal_mol": 0.5505070858775899,
+    "offset_aligned_rmse_kcal_mol": 0.46135986734925233,
+    "reference_cutoff_kcal_mol": 12,
+    "points": 1072,
+    "projection_axes": [
+      0,
+      1
+    ]
+  },
+  "status": "analyzed",
+  "production_ps": 25.0,
+  "seed": 0,
+  "reference_basin_delta_g": -6.31,
+  "absolute_basin_error_kcal_mol": 0.4815109703840301,
+  "paper_basin_guide_kcal_mol": 1.0,
+  "within_paper_basin_guide": true,
+  "fes_window_ps": [
+    21.0,
+    25
+  ]
+}

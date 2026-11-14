@@ -168,7 +168,7 @@ def make_figure(case, actual, original, path):
             "Original, 25 ps",
             "Paper long-time reference"
             if system != "tetra_alanine"
-            else "Independent REMD reference",
+            else "Preliminary REMD reference",
         ],
     ):
         m = ax.pcolormesh(

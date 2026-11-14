@@ -1,0 +1,4 @@
+# replica role d1(O7-C8) d2(C1-C10); trajectory.npz, t=25 ps
+  152 substrate    1.4077   3.5622
+  180 ts           2.2950   2.2926
+   16 product      3.5970   1.4400

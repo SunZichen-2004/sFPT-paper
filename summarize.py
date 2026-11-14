@@ -35,7 +35,7 @@ def main():
     out = ROOT / "reports/benchmark_summary.csv"
     if rows:
         with out.open("w", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]), lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
     lines = [
@@ -60,7 +60,7 @@ def main():
         )
     lines += [
         "",
-        "Basin definitions and physical-density reconstruction are shared with the archived comparison. Independent references are umbrella sampling for dialanine and rearrangement, and REMD for tetra-alanine. Short-run agreement with the original 25 ps output does not establish convergence to the long-time paper reference. In particular, the original tetra-alanine sFPT 25 ps delta G is already 1.484 kcal/mol versus REMD 0.301 kcal/mol.",
+        "The sign convention is `delta G = kB*T*ln(P1/P2)`. Basin 1 has phi < 0 for dialanine, all three phi angles < 0 for tetra-alanine, and d2-d1 < 0 (product) for rearrangement. Physical-density reconstruction is shared with the archived comparison. Independent references are umbrella sampling for dialanine and rearrangement, and the paper's preliminary REMD estimate for tetra-alanine. Short-run agreement with the original 25 ps output does not establish convergence to the long-time paper reference. In particular, the original tetra-alanine sFPT 25 ps delta G is already 1.484 kcal/mol versus REMD 0.301 kcal/mol.",
         "",
         "Reaction WT-MetaD has substantial archived run-to-run variation. The three original 25 ps delta G values are -11.661, -7.989 and -7.980 kcal/mol, versus the new -8.191. New FES RMSE against the three runs is 1.995, 0.727 and 0.632 kcal/mol. The main table retains original seed 0; all three comparisons are recorded in `rearrangement_metad_variation.json`. This is descriptive variation, not a confidence interval.",
         "",

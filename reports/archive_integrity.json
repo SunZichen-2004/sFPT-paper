@@ -2,7 +2,27 @@
   "verified_input_files": 100,
   "cases": {
     "rearrangement_sfpt": {
-      "status": "incomplete"
+      "status": "verified",
+      "archive": "results/rearrangement_sfpt/trajectory.npz",
+      "bytes": 1428629537,
+      "sha256": "1f7d6a3745c764f365a44981446d674a754a3d4f0cf3b64fbad9a6bdc78b7682",
+      "cv_shape": [
+        253,
+        512,
+        2
+      ],
+      "coordinates_shape": [
+        253,
+        512,
+        1022,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float32",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.76837158203125e-07
     },
     "dialanine_vacuum_sfpt": {
       "status": "verified",
@@ -24,7 +44,8 @@
       "final_coordinate_dtype": "float64",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.440892098500626e-16
     },
     "dialanine_vacuum_metad": {
       "status": "verified",
@@ -46,7 +67,8 @@
       "final_coordinate_dtype": "float64",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.440892098500626e-16
     },
     "dialanine_water_sfpt": {
       "status": "verified",
@@ -68,10 +90,31 @@
       "final_coordinate_dtype": "float32",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 1.9522319716358538e-07
     },
     "dialanine_water_metad": {
-      "status": "pending"
+      "status": "verified",
+      "archive": "results/dialanine_water_metad/trajectory.npz",
+      "bytes": 525081612,
+      "sha256": "28fe99a135b984548dd610a109b30952d50ab3bfa787c3596fa99da939cf9bbd",
+      "cv_shape": [
+        251,
+        320,
+        2
+      ],
+      "coordinates_shape": [
+        251,
+        320,
+        598,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float32",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 1.7652223993636082e-07
     },
     "tetra_alanine_sfpt": {
       "status": "verified",
@@ -93,7 +136,8 @@
       "final_coordinate_dtype": "float64",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.440892098500626e-16
     },
     "tetra_alanine_metad": {
       "status": "verified",
@@ -115,7 +159,8 @@
       "final_coordinate_dtype": "float64",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.440892098500626e-16
     },
     "rearrangement_metad": {
       "status": "verified",
@@ -137,8 +182,9 @@
       "final_coordinate_dtype": "float32",
       "complete": true,
       "finite_coordinates_and_cvs": true,
-      "final_coordinates_match_last_frame": true
+      "final_coordinates_match_last_frame": true,
+      "final_cv_from_coordinates_max_error": 4.76837158203125e-07
     }
   },
-  "verified_cases": 6
+  "verified_cases": 8
 }

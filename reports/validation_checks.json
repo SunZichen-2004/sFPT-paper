@@ -1,6 +1,6 @@
 {
   "core_numerical_tests": {
-    "passed": 42,
+    "passed": 43,
     "skipped": 7
   },
   "github_ci": "passed",
@@ -38,6 +38,11 @@
       "four successive updates in each configuration"
     ],
     "baseline_core_commit": "988838d",
-    "cleaned_core_commit": "999b697"
-  }
+    "cleaned_core_commit": "999b697",
+    "devices": [
+      "cpu",
+      "cuda"
+    ]
+  },
+  "core_final_commit": "7b9ba3f"
 }
