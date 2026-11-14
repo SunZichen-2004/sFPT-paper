@@ -118,7 +118,44 @@ def plot(path, output, pair=None, times=None):
     print(output)
 
 
-def reconstruct(case, trajectory, output, device, interval=None, end=None):
+def mean_bias_weights(rounds, first_round):
+    """Weights for the mean cumulative bias from first_round through rounds."""
+    if not 1 <= first_round <= rounds:
+        raise ValueError("Invalid bias averaging window")
+    return np.minimum(
+        1.0, (rounds - np.arange(1, rounds + 1) + 1) / (rounds - first_round + 1)
+    )
+
+
+def averaged_metad_fes(trajectory, axes, start, end, periodic, device):
+    import tempfile
+    from fp_transformer_torch.reconstruct_FES.archive import reconstruct_metad
+
+    with np.load(trajectory, allow_pickle=False) as z:
+        metadata = json.loads(str(z["metadata_json"]))
+        pace = metadata["timestep"] * metadata["metad_deposit_pace"]
+        rounds = int(round(end / pace))
+        first = int(round(start / pace)) + 1
+        count = rounds * metadata["replicas"]
+        if count > len(z["hills_heights"]):
+            raise ValueError("Archive does not contain the complete static FES window")
+        values = {
+            k: z[k] for k in ["complete", "metadata_json", "hills_sigma", "bias_factor"]
+        }
+        values["hills_centers"] = z["hills_centers"][:count]
+        values["hills_heights"] = z["hills_heights"][:count] * np.repeat(
+            mean_bias_weights(rounds, first), metadata["replicas"]
+        )
+    # Grid construction is linear in hill heights; omit the unaveraged final grid.
+    with tempfile.TemporaryDirectory(prefix="sfpt-mean-bias-") as folder:
+        path = Path(folder) / "mean_bias.npz"
+        np.savez_compressed(path, **values)
+        return reconstruct_metad(path, axes, periodic=periodic, device=device)
+
+
+def reconstruct(
+    case, trajectory, output, device, interval=None, end=None, static=False
+):
     from fp_transformer_torch.reconstruct_FES.archive import (
         reconstruct_sfpt,
         reconstruct_metad,
@@ -129,13 +166,17 @@ def reconstruct(case, trajectory, output, device, interval=None, end=None):
         if not bool(z["complete"]):
             raise ValueError("Trajectory is incomplete")
         maximum = float(z["time_ps"][z["phase"] == "production"].max())
-    end = maximum if end is None else end
+    if static and (end is not None or interval is not None):
+        raise ValueError("--static uses the protocol window; omit --end and --interval")
+    end = (
+        config["static_fes_window_ps"][1] if static else maximum if end is None else end
+    )
     if end <= 0 or end > maximum:
         raise ValueError("End must be within the completed production time")
     interval = config["fes_interval_ps"] if interval is None else interval
     if interval <= 0:
         raise ValueError("Interval must be positive")
-    ends = np.arange(interval, end + 1e-8, interval)
+    ends = np.asarray([end]) if static else np.arange(interval, end + 1e-8, interval)
     if len(ends) == 0 or not np.isclose(ends[-1], end):
         ends = np.r_[ends, end]
     axes = (
@@ -152,6 +193,8 @@ def reconstruct(case, trajectory, output, device, interval=None, end=None):
             if case.endswith("sfpt")
             else 0.0
         )
+        if static:
+            start = config["static_fes_window_ps"][0]
         result = (
             reconstruct_sfpt(
                 trajectory,
@@ -162,6 +205,15 @@ def reconstruct(case, trajectory, output, device, interval=None, end=None):
                 device=device,
             )
             if case.endswith("sfpt")
+            else averaged_metad_fes(
+                trajectory,
+                axes,
+                start,
+                float(t),
+                not case.startswith("rearrangement"),
+                device,
+            )
+            if static and start < t
             else reconstruct_metad(
                 trajectory,
                 axes,
@@ -183,6 +235,7 @@ def reconstruct(case, trajectory, output, device, interval=None, end=None):
                     units="kcal/mol",
                     axis_order="ij; time first",
                     trajectory=str(trajectory),
+                    mode="paper_static" if static else "time_series",
                 )
             )
         ),
@@ -215,6 +268,11 @@ def main():
     a.add_argument("--device", default="cpu")
     a.add_argument("--interval", type=float)
     a.add_argument("--end", type=float)
+    a.add_argument(
+        "--static",
+        action="store_true",
+        help="Use the paper static window, including mean-bias reconstruction",
+    )
     a = p.parse_args()
     if a.action == "verify":
         verify_data()
@@ -228,7 +286,9 @@ def main():
         )
         plot(path, output, tuple(a.pair) if a.pair else None, a.times)
     else:
-        reconstruct(a.case, a.trajectory, a.output, a.device, a.interval, a.end)
+        reconstruct(
+            a.case, a.trajectory, a.output, a.device, a.interval, a.end, a.static
+        )
 
 
 if __name__ == "__main__":

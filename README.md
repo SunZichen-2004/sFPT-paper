@@ -79,6 +79,14 @@ python fes_time.py plot --input analysis/dialanine_vacuum_sfpt_seed0.npz \
   --output analysis/dialanine_vacuum_sfpt_seed0.png
 ```
 
+Add `--static` to reconstruct the paper's final FES window instead of successive time windows. This uses the stated sFPT averaging window, and averages cumulative WT-MetaD bias over the last-half window for the dipeptides:
+
+```bash
+python fes_time.py reconstruct --case dialanine_vacuum_metad --static \
+  --trajectory results/paper/dialanine_vacuum_metad/seed_0/trajectory.npz \
+  --output analysis/dialanine_vacuum_metad_static.npz --device cuda
+```
+
 ## Trajectories and postprocessing
 
 Each run writes one complete `trajectory.npz` containing full coordinates, CVs, explicit time/replica axes, sFPT bandwidths and lambda, metadata and a completeness flag. WT-MetaD also stores the deposited hills and final bias grid. Preparation and production times are separate. The fixed production lambda follows the prescribed healing stages.

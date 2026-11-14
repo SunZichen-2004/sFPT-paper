@@ -60,5 +60,13 @@
   "fes_time_reconstruct_smoke": {
     "sfpt": "passed,5ps window from complete example archive",
     "metad": "passed,1ps cumulative bias from complete example archive"
+  },
+  "paper_repo_tests": {
+    "passed": 17,
+    "device": "cpu"
+  },
+  "paper_static_bias_reconstruction": {
+    "mean_bias_weight_identity": "passed",
+    "actual_npz_mean_bias_smoke": "passed"
   }
 }
