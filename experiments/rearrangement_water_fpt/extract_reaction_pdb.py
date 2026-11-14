@@ -1,33 +1,22 @@
 #!/usr/bin/env python3
-"""Pick substrate / TS / product from the last sFPT stage and write PDBs + a schematic.
+"""Pick substrate / TS / product from a complete NPZ and write PDBs + a schematic.
 
-Last stage of 87173, full box (solute + 334 TIP3P). CVs:
+Full box (solute + 334 TIP3P). CVs:
   d1 = O7–C8 (breaking), d2 = C1–C10 (forming).
 """
 
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(
-    "/storage/gaoyiqinLab/sunzicheng/work/torch_fpt/fp_transformer_torch-master"
-)
-EXP = ROOT / "experiments" / "rearrangement_water_fpt"
-FPT = EXP / "results" / "claisen_water_fpt_mh-0_g8_87173"
-BOX_PDB = (
-    ROOT / "experiments" / "rearrangement_water_metadynamics" / "mlmm_box" / "box.pdb"
-)
-BOND_FILE = (
-    ROOT
-    / "experiments"
-    / "rearrangement_water_metadynamics"
-    / "mlmm_box"
-    / "solute_gaff"
-    / "solute_bond.txt"
-)
-OUT = EXP / "pdb_for_reaction"
+ROOT = Path(__file__).resolve().parents[2]
+EXP = Path(__file__).resolve().parent
+BOX_PDB = EXP / "mlmm_box" / "box.pdb"
+BOND_FILE = EXP / "mlmm_box" / "solute_gaff" / "solute_bond.txt"
+OUT = ROOT / "reports" / "rearrangement_structures"
 N_SOLUTE = 20
 LBOX = 22.0
 # 0-based CV atoms
@@ -368,34 +357,60 @@ def write_pml(out: Path, picks: dict[str, int], cv: np.ndarray) -> None:
 
 
 def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    cv = np.load(FPT / "stage0245_lambda0p025000_cv.npy")
-    if cv.ndim == 3:
-        cv = cv.reshape(cv.shape[0], -1)
-    xyz_all = np.load(FPT / "stage0245_lambda0p025000_coords_full.npy")
-    print(f"[load] cv {cv.shape}  xyz {xyz_all.shape}", flush=True)
-
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--trajectory",
+        type=Path,
+        default=ROOT / "results/rearrangement_sfpt/trajectory.npz",
+    )
+    parser.add_argument(
+        "--frame",
+        type=int,
+        default=-1,
+        help="Production frame index; -1 selects the final frame",
+    )
+    parser.add_argument("--output", type=Path, default=OUT)
+    args = parser.parse_args()
+    out = args.output
+    out.mkdir(parents=True, exist_ok=True)
+    with np.load(args.trajectory, allow_pickle=False) as data:
+        if not bool(data["complete"]):
+            raise ValueError(
+                "The trajectory must be complete before structural extraction"
+            )
+        frames_idx = np.flatnonzero(data["phase"] == "production")
+        index = int(frames_idx[args.frame])
+        cv = data["cv"][index]
+        if cv.shape[1] != 2:
+            raise ValueError("Expected the two reaction distance CVs")
+        if args.frame == -1:
+            xyz_all = data["final_coordinates"]
+        elif "coordinates" in data:
+            xyz_all = data["coordinates"][index]
+        else:
+            raise ValueError("Intermediate extraction needs archived full coordinates")
+        time_ps = float(data["time_ps"][index])
     picks = pick_replicas(cv)
     atom_lines = load_pdb_atom_lines(BOX_PDB)
     bonds = load_solute_bonds(BOND_FILE)
     frames = {}
-    meta_lines = ["# replica  role  d1(O7-C8)  d2(C1-C10)  from stage0245"]
+    meta_lines = [
+        f"# replica role d1(O7-C8) d2(C1-C10); {args.trajectory.name}, t={time_ps:g} ps"
+    ]
     for key, ig in picks.items():
         xyz = wrap_to_box_center(xyz_all[ig])
         frames[key] = xyz
         d1, d2 = float(cv[ig, 0]), float(cv[ig, 1])
         remark = (
-            f"{key}  replica={ig}  d1(O7-C8)={d1:.4f}  d2(C1-C10)={d2:.4f}  "
-            f"stage0245  N={xyz.shape[0]}  n_wat=334  L=22.0"
+            f"{key} replica={ig} d1={d1:.4f} d2={d2:.4f} "
+            f"production_time_ps={time_ps:g} N={xyz.shape[0]} L={LBOX:g}"
         )
-        write_pdb(OUT / f"{key}.pdb", xyz, atom_lines, remark=remark)
-        meta_lines.append(f"{ig:5d}  {key:10s}  {d1:8.4f}  {d2:8.4f}")
-        print(f"[pick] {key:10s} replica={ig:4d}  d1={d1:.3f}  d2={d2:.3f}", flush=True)
-
-    (OUT / "selection.txt").write_text("\n".join(meta_lines) + "\n")
-    write_pml(OUT / "render.pml", picks, cv)
+        write_pdb(out / f"{key}.pdb", xyz, atom_lines, remark=remark)
+        meta_lines.append(f"{ig:5d} {key:10s} {d1:8.4f} {d2:8.4f}")
+    (out / "selection.txt").write_text("\n".join(meta_lines) + "\n")
+    write_pml(out / "render.pml", picks, cv)
     draw_schematic(
-        frames, cv, picks, bonds, OUT / "claisen_explicit_water_schematic.png"
+        frames, cv, picks, bonds, out / "claisen_explicit_water_schematic.png"
     )
 
 

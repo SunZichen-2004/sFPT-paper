@@ -30,6 +30,16 @@ pip install -r requirements.txt
 
 The observed package versions are recorded in `environment-tested.json`. CUDA production runs require a suitable GPU. `--device cpu` in an individual runner is intended for small diagnostics.
 
+## Reaction model checkpoint
+
+The reaction uses MACE-MH-0 with the `omol` head from the [official MACE release](https://github.com/ACEsuit/mace-foundations/releases/tag/mace_mh_1). Stage and verify the exact tested checkpoint before running reaction cases:
+
+```bash
+python download_model.py
+```
+
+The helper checks `model_checksums.json` and places the model at `~/.cache/mace/macemh0model`, which is the sampling library's expected cache path. It reuses an existing file only when its SHA-256 matches. Model weights are downloaded from the upstream release and are not bundled in this repository.
+
 ## Run
 
 ```bash
@@ -74,3 +84,11 @@ sFPT final-window lengths are 5 ps (vacuum dipeptide), 10 ps (water), 20 ps (tet
 `references/` contains compact original 25 ps CV/bandwidth or HILLS archives and the longer paper surfaces. `references/provenance.json` records their exact sources, time calibration and checksums. All eight selected original 25 ps references use seed 0, matching the requested new benchmark. The original reaction run is 89109; its seed is verified from the saved run log.
 
 A 25 ps, single-seed benchmark has a different statistical scope from the paper's multi-seed static surfaces: vacuum dipeptide 25–50 ps, water 100–200 ps, tetra-alanine 450–500 ps (and WT-MetaD 10 ns), and reaction sFPT 79–83 ps. Agreement is evaluated quantitatively; short-run completion alone does not establish agreement with the final paper FES.
+
+The retained reaction structural postprocessing reads the same complete archive:
+
+```bash
+python experiments/rearrangement_water_fpt/extract_reaction_pdb.py --trajectory results/rearrangement_sfpt/trajectory.npz
+```
+
+It writes selected substrate/transition-region/product PDBs, a PyMOL script and a structural schematic. The neural maximum-likelihood FES fitter remains in the core library and has been smoke-tested directly on the consolidated NPZ format.

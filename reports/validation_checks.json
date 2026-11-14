@@ -1,0 +1,9 @@
+{
+  "core_numerical_tests": {"passed": 65, "skipped": 7},
+  "github_ci": "passed",
+  "wheel_build": "passed",
+  "core_import_without_torchsim": "passed",
+  "configured_cli_parsers": {"passed": 8},
+  "checkpoint_round_trip_cpu_and_cuda": {"passed": 2},
+  "neural_fes_npz_smoke": {"status": "passed", "optimizer_steps": 2, "device": "cpu", "purpose": "IO and training-path smoke only"}
+}

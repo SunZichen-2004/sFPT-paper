@@ -2,5 +2,7 @@
   "model": "MACE-MH-0",
   "default_head": "omol",
   "checkpoint_sha256": "d62ff8f293664e6556cfa49364b28ee72a70cf1e6150f3c111a578397fed609d",
-  "checkpoint_bytes": 39921174
+  "checkpoint_bytes": 39921174,
+  "source_url": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_mh_1/mace-mh-0.model",
+  "release_url": "https://github.com/ACEsuit/mace-foundations/releases/tag/mace_mh_1"
 }

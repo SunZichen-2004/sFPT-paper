@@ -240,6 +240,34 @@ def main():
                 raise ValueError(f"{case}: archive used a different initial ensemble")
             if z["cv"].shape[1] != config["replicas"] or "coordinates" not in z:
                 raise ValueError(f"{case}: incomplete ensemble/coordinate output")
+            production = z["phase"] == "production"
+            times = z["time_ps"][production]
+            expected_times = (
+                np.arange(0, 25001, config["dump_every"]) * config["timestep"]
+            )
+            if not np.allclose(times, expected_times):
+                raise ValueError(f"{case}: missing or duplicated production frames")
+            if case.endswith("sfpt"):
+                if not np.allclose(
+                    z["lambda_value"][production], config["production_lambda"]
+                ):
+                    raise ValueError(
+                        f"{case}: production lambda is not the configured constant"
+                    )
+            else:
+                expected_hills = config["replicas"] * (
+                    25000 // config["metad_deposit_pace"]
+                )
+                if len(z["hills_heights"]) != expected_hills:
+                    raise ValueError(
+                        f"{case}: hill count does not cover the full production run"
+                    )
+                if not np.isclose(float(z["bias_factor"]), config["metad_bias_factor"]):
+                    raise ValueError(f"{case}: wrong metadynamics bias factor")
+                if not np.allclose(
+                    z["hills_sigma"], np.fromstring(config["metad_sigma"], sep=",")
+                ):
+                    raise ValueError(f"{case}: wrong metadynamics widths")
             elapsed = float(z["time_ps"][z["phase"] == "production"].max())
         if not np.isclose(elapsed, 25):
             raise ValueError(f"{case}: production length {elapsed}, expected 25 ps")
