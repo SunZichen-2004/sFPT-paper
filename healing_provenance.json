@@ -1,0 +1,69 @@
+{
+  "scope": "Current main-picture sFPT sources; run logs and saved artifacts, not only parser defaults",
+  "dialanine_vacuum": {
+    "runs": [
+      "dialanine_gaff_r256_s0",
+      "dialanine_gaff_r256_s1",
+      "dialanine_gaff_r256_s2"
+    ],
+    "lambda_heal": [
+      0.5,
+      0.2
+    ],
+    "production_lambda_initial": 0.1,
+    "heal_steps_per_lambda": 500,
+    "dt_ps": 0.001,
+    "heal_duration_ps": 1.0,
+    "evidence": "dialanine/results/_logs/r256_s*_job*.out and paired heal artifacts"
+  },
+  "dialanine_water": {
+    "runs": [
+      "dialanine_water_sfpt_r320_g1_s0_87371",
+      "dialanine_water_sfpt_r320_g1_s2_87373"
+    ],
+    "lambda_heal": [
+      0.5,
+      0.1
+    ],
+    "production_lambda_initial": 0.0625,
+    "evidence": "actual heal0000_lambda0p500000 and heal0001_lambda0p100000 files; first production stage lambda0p062500; no original job log available locally"
+  },
+  "rearrangement_water": {
+    "jobs": [
+      89108,
+      89109,
+      89110
+    ],
+    "unbiased_pre_md_steps": 100,
+    "dt_ps": 0.001,
+    "lambda_heal": [
+      0.1,
+      0.05
+    ],
+    "heal_steps_per_lambda": 500,
+    "production_lambda_initial": 0.025,
+    "total_preparation_time_ps": 1.1,
+    "evidence": "rearrangement_water_fpt/rearrangement_main_picture/source_run_logs/job.8910*.out extracted from uploaded 01_code_scripts.tar.gz"
+  },
+  "tetra_alanine_current": {
+    "lambda_heal": [],
+    "production_lambda_fixed": 0.075,
+    "production_ps": 500,
+    "replicas": [
+      1024,
+      2048,
+      4096,
+      8192
+    ],
+    "seed_values": [
+      0,
+      1,
+      2
+    ],
+    "initial_pool_extra_unbiased_md_steps": 1000,
+    "initial_pool_extra_unbiased_md_ps": 1.0,
+    "evidence": "replica_scan_20261031/initial_ensemble/manifest.json and actual run_config.json/fixed-lambda logs"
+  },
+  "time_convention": "Production-stage FES/DeltaG/CV-transport times exclude prep/heal. Rearrangement transport first 0.1 ps frame occurs after 1.1 ps documented preparation, i.e. 1.2 ps from start of those stages.",
+  "lambda_direction": "Heal values decrease. Old ESS production scheduler increases lambda by tiny increments; it is not a decreasing production ramp. Current tetra-alanine production lambda is strictly fixed."
+}

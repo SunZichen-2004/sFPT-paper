@@ -1,0 +1,14 @@
+{
+  "torch": "2.14.1",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "matplotlib": "3.11.2",
+  "torch-sim-atomistic": "0.6.2",
+  "torch-pme": null,
+  "mace-torch": "0.3.16",
+  "ase": "3.29.0",
+  "h5py": "3.16.0",
+  "e3nn": "0.4.4",
+  "cuequivariance": "0.13.0",
+  "cuequivariance-torch": "0.13.0"
+}

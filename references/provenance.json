@@ -1,0 +1,65 @@
+{
+  "dialanine_vacuum_sfpt": {
+    "source": "fp_transformer_torch/experiments/dialanine/results/dialanine_gaff_r256_s0",
+    "time_convention": "production time excludes preparation",
+    "frames": 250,
+    "replicas": 256,
+    "archive_sha256": "e0cf195816136349e014e1ff1caa31025e26681019554bfb4e7dba5f110773c6",
+    "source_stage_interval_ps": 0.1,
+    "source_evidence": "dialanine_main_picture/prepare_main_picture_data.py: stage index selected with time_ps*10"
+  },
+  "dialanine_water_sfpt": {
+    "source": "fp_transformer_torch/experiments/dialanine_water/sFPT/results/dialanine_water_sfpt_r320_g1_s0_87371",
+    "time_convention": "production time excludes preparation",
+    "frames": 250,
+    "replicas": 320,
+    "archive_sha256": "c4c668e726c49ff71fe84f5eb35f1b858253dbe838cb123409cd25aee979da47",
+    "source_stage_interval_ps": 0.1,
+    "source_evidence": "dialanine_main_picture/prepare_main_picture_data.py: stage index selected with time_ps*10"
+  },
+  "tetra_alanine_sfpt": {
+    "source": "fp_transformer_torch/experiments/tetra_alanine_sFPT/replica_scan_20261031/lambda0p075_500ps_3seeds/r2048_s0/trajectory.h5",
+    "time_convention": "production time excludes preparation",
+    "frames": 125,
+    "replicas": 2048,
+    "archive_sha256": "92a6d76a2fc64e6b0edd3e97048634dcc8db079309ca170e753b4044864deea1"
+  },
+  "rearrangement_sfpt": {
+    "source": "fp_transformer_torch/experiments/rearrangement_water_fpt/raw_data/rearrangement_water_raw_merged_20261027",
+    "time_convention": "production time excludes preparation",
+    "frames": 250,
+    "replicas": 512,
+    "archive_sha256": "60da57c915ca1ef698de7295f70051bef0fd4bdb8bc72674eb34226020746ef5",
+    "original_seed": 10,
+    "requested_reproduction_seed": 0,
+    "source_stage_interval_ps": 0.1
+  },
+  "dialanine_vacuum_metad": {
+    "source": "fp_transformer_torch/experiments/dialanine_meta/results/dialanine_metad_r256_s0_717036/live/hills.npz",
+    "deposition_pace_ps": 0.05,
+    "replicas": 256,
+    "hills": 128000,
+    "archive_sha256": "5d43b56385e17e52ebe7db22f99c2a16bacbc8b4aeb587693c176f6eced0f6c0"
+  },
+  "dialanine_water_metad": {
+    "source": "fp_transformer_torch/experiments/dialanine_water_meta/results/dialanine_water_metad_r320_s0_701148/live/hills.npz",
+    "deposition_pace_ps": 0.05,
+    "replicas": 320,
+    "hills": 160000,
+    "archive_sha256": "918c6cb2bf66fb8c5ae8167c231662fd8cef85909b55900acde1c302480cadd4"
+  },
+  "rearrangement_metad": {
+    "source": "fp_transformer_torch/experiments/rearrangement_water_metadynamics/results/claisen_water_metad_mh-0_r64_s0_717087/live/hills.npz",
+    "deposition_pace_ps": 0.05,
+    "replicas": 64,
+    "hills": 32000,
+    "archive_sha256": "2729bae08296e119a60b7453a95c0207b508eaef90747184072cd9383090cf6b"
+  },
+  "tetra_alanine_metad": {
+    "source": "archived tetra-alanine figure-data: r64_s0_94242/live/hills.npz",
+    "deposition_pace_ps": 0.05,
+    "replicas": 64,
+    "hills": 32000,
+    "archive_sha256": "1538bd501e01a2f58be8c177583892e2b1a4ec0662f8691f522dc9bf5f92dc09"
+  }
+}
