@@ -22,7 +22,7 @@ Install the cleaned library branch alongside this repository:
 ```bash
 git clone https://github.com/SunZichen-2004/fp_transformer_torch.git
 cd fp_transformer_torch
-git checkout 988838d
+git checkout 999b697
 pip install -e ".[simulation,mlip,analysis,dev]"
 cd ../sFPT-paper
 pip install -r requirements.txt

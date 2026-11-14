@@ -1,6 +1,6 @@
 {
   "core_numerical_tests": {
-    "passed": 65,
+    "passed": 42,
     "skipped": 7
   },
   "github_ci": "passed",
@@ -29,5 +29,15 @@
   "structural_postprocessing_npz_smoke": "passed: substrate/transition-region/product PDBs, PyMOL script, schematic",
   "molecular_input_checksums": {
     "passed": 100
+  },
+  "paper_kernel_cleanup_equivalence": {
+    "status": "bitwise identical",
+    "comparisons": [
+      "Euclidean and torus joint gradients",
+      "per-replica and global rescaling",
+      "four successive updates in each configuration"
+    ],
+    "baseline_core_commit": "988838d",
+    "cleaned_core_commit": "999b697"
   }
 }

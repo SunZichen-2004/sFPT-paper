@@ -171,21 +171,6 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--rescale-per-replica", action="store_true", default=True)
     p.add_argument("--no-rescale-per-replica", action="store_true")
     p.add_argument("--rescale-adaptive-ref-quantile", type=float, default=0.5)
-    p.add_argument(
-        "--bandwidth-method",
-        choices=["rescale", "local_mass", "knn", "log_mass"],
-        default="rescale",
-    )
-    p.add_argument(
-        "--freeze-kernel-centers",
-        action="store_true",
-        help="Opt into the fixed-center KDE score; default uses the original joint replica gradient.",
-    )
-    p.add_argument("--bandwidth-target-occupancy", type=float, default=3.0)
-    p.add_argument("--bandwidth-solver-iterations", type=int, default=24)
-    p.add_argument("--bandwidth-neighbor-count", type=int, default=3)
-    p.add_argument("--bandwidth-neighbor-scale", type=float, default=2 ** (-0.5))
-    p.add_argument("--bandwidth-relaxation", type=float, default=1.0)
     p.add_argument("--rescale-global-pull", type=float, default=0.02)
     p.add_argument("--rescale-max-iterations", type=int, default=128)
     p.add_argument("--rescale-log-error-clip", type=float, default=0.5)
@@ -330,11 +315,6 @@ def main() -> None:
         global_pull=args.rescale_global_pull,
         max_rescale_iterations=args.rescale_max_iterations,
         log_error_clip=args.rescale_log_error_clip,
-        target_occupancy=args.bandwidth_target_occupancy,
-        solver_iterations=args.bandwidth_solver_iterations,
-        neighbor_count=args.bandwidth_neighbor_count,
-        neighbor_scale=args.bandwidth_neighbor_scale,
-        relaxation=args.bandwidth_relaxation,
         fixed_row_sum_min=float(args.rescale_fixed_row_sum_min),
         fixed_row_sum_max=float(args.rescale_fixed_row_sum_max),
         use_normalized_kernel=False,
@@ -344,22 +324,15 @@ def main() -> None:
         print(
             f"[init] rescale metric=unnormalized_K_row_sum  mode=adaptive_quantile  band=[{args.rescale_adaptive_band_low},{args.rescale_adaptive_band_high}]*median clipped to [{rescale.fixed_row_sum_min},{rescale.fixed_row_sum_max}]  bw_clip=[{rescale.bandwidth_min},{rescale.bandwidth_max}]  global_pull={rescale.global_pull}"
         )
-    print(
-        f"[init] bandwidth_method={args.bandwidth_method} occupancy={args.bandwidth_target_occupancy} neighbors={args.bandwidth_neighbor_count} relaxation={args.bandwidth_relaxation}",
-        flush=True,
-    )
     kernel = GaussianKernel(
         args.replicas,
         bandwidth=bandwidth0,
         distance_function=torus_pairwise_distance,
-        freeze_centers=args.freeze_kernel_centers,
-        update_bandwidth_method=args.bandwidth_method,
         rescale_per_replica=bool(args.rescale_per_replica),
         rescale_per_replica_config=rescale,
         device=device,
         dtype=dtype,
     )
-    print(f"[init] freeze_kernel_centers={kernel.freeze_centers}", flush=True)
     mass_path = Path(str(prefix) + "_mass.txt")
     if mass_path.is_file():
         mass_vals = np.loadtxt(mass_path, dtype=np.float64).reshape(-1)

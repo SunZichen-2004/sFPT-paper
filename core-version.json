@@ -1,6 +1,7 @@
 {
   "repository": "https://github.com/SunZichen-2004/fp_transformer_torch",
   "branch": "cleanup/public-core-20261114",
-  "commit": "988838d",
-  "package_version": "0.2.0"
+  "commit": "999b697",
+  "package_version": "0.2.0",
+  "dynamics_equivalent_to_benchmark_initial_core": "988838d; unused branch removal, bitwise kernel/rescaling comparison passed"
 }

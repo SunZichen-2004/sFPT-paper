@@ -163,21 +163,6 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip per-stage scatter plots; dynamics and saved arrays are unchanged.",
     )
-    p.add_argument(
-        "--bandwidth-method",
-        choices=["rescale", "local_mass", "knn", "log_mass"],
-        default="rescale",
-    )
-    p.add_argument(
-        "--freeze-kernel-centers",
-        action="store_true",
-        help="Opt into the fixed-center KDE score; default uses the original joint replica gradient.",
-    )
-    p.add_argument("--bandwidth-target-occupancy", type=float, default=3.0)
-    p.add_argument("--bandwidth-solver-iterations", type=int, default=24)
-    p.add_argument("--bandwidth-neighbor-count", type=int, default=3)
-    p.add_argument("--bandwidth-neighbor-scale", type=float, default=2 ** (-0.5))
-    p.add_argument("--bandwidth-relaxation", type=float, default=1.0)
     p.add_argument("--rescale-global-pull", type=float, default=0.02)
     p.add_argument("--rescale-max-iterations", type=int, default=128)
     p.add_argument("--rescale-log-error-clip", type=float, default=0.5)
@@ -318,32 +303,20 @@ def main() -> None:
         global_pull=args.rescale_global_pull,
         max_rescale_iterations=args.rescale_max_iterations,
         log_error_clip=args.rescale_log_error_clip,
-        target_occupancy=args.bandwidth_target_occupancy,
-        solver_iterations=args.bandwidth_solver_iterations,
-        neighbor_count=args.bandwidth_neighbor_count,
-        neighbor_scale=args.bandwidth_neighbor_scale,
-        relaxation=args.bandwidth_relaxation,
         fixed_row_sum_min=float(args.rescale_fixed_row_sum_min),
         fixed_row_sum_max=float(args.rescale_fixed_row_sum_max),
         use_normalized_kernel=False,
         normalize_row_sum_by_replicas=False,
     )
-    print(
-        f"[init] bandwidth_method={args.bandwidth_method} occupancy={args.bandwidth_target_occupancy} neighbors={args.bandwidth_neighbor_count} relaxation={args.bandwidth_relaxation}",
-        flush=True,
-    )
     kernel = GaussianKernel(
         args.replicas,
         bandwidth=bw0,
         distance_function=torus_pairwise_distance,
-        freeze_centers=args.freeze_kernel_centers,
-        update_bandwidth_method=args.bandwidth_method,
         rescale_per_replica=True,
         rescale_per_replica_config=rescale,
         device=device,
         dtype=dtype,
     )
-    print(f"[init] freeze_kernel_centers={kernel.freeze_centers}", flush=True)
     driver_kw = dict(
         timestep=float(args.timestep),
         langevin_friction=float(args.langevin_friction),
