@@ -12,13 +12,61 @@
       1024
     ],
     "production_ps": 50,
-    "seeds": [
-      0,
-      1,
-      2
-    ],
     "metad_total_initial_hill_eV": 1.28,
-    "note": "Original archived seed counts are recorded in the FES caches; not every large-R setting has three completed source runs."
+    "note": "Original archived seed counts are recorded in the FES caches; not every large-R setting has three completed source runs.",
+    "sfpt_seeds_by_R": {
+      "64": [
+        0,
+        1,
+        2
+      ],
+      "128": [
+        0,
+        1,
+        2
+      ],
+      "256": [
+        0,
+        1,
+        2
+      ],
+      "512": [
+        0,
+        1,
+        2
+      ],
+      "1024": [
+        0,
+        1
+      ]
+    },
+    "metad_seeds_by_R": {
+      "64": [
+        0,
+        1,
+        2
+      ],
+      "128": [
+        0,
+        1,
+        2
+      ],
+      "256": [
+        0,
+        1,
+        2
+      ],
+      "512": [
+        0,
+        1,
+        2
+      ],
+      "1024": [
+        0,
+        1,
+        2
+      ]
+    }
   },
   "dialanine_water_replicas": {
     "base_cases": [
@@ -55,13 +103,34 @@
         2
       ]
     },
-    "metad_seeds": [
-      0,
-      1,
-      2
-    ],
     "metad_total_initial_hill_eV": 1.28,
-    "note": "Original stored seed counts and coverage are retained in source caches."
+    "note": "Original stored seed counts and coverage are retained in source caches.",
+    "metad_seeds_by_R": {
+      "64": [
+        0,
+        1,
+        2
+      ],
+      "128": [
+        0,
+        1,
+        2
+      ],
+      "1024": [
+        0,
+        1
+      ],
+      "320": [
+        0,
+        1,
+        2
+      ],
+      "512": [
+        0,
+        1,
+        2
+      ]
+    }
   },
   "dialanine_vacuum_lambda": {
     "base_case": "dialanine_vacuum_sfpt",
