@@ -1,0 +1,10 @@
+{
+  "1": {
+    "source": "fp_transformer_torch/experiments/rearrangement_water_metadynamics/results/claisen_water_metad_mh-0_r64_s1_717088/live/hills.npz",
+    "sha256": "8d4c8d91814165fab60d0bf6d90cae4d44f3d8101e5fadeeece8c42a8be83efa"
+  },
+  "2": {
+    "source": "fp_transformer_torch/experiments/rearrangement_water_metadynamics/results/claisen_water_metad_mh-0_r64_s2_717089/live/hills.npz",
+    "sha256": "f8b6785d8329a5db039dacef51a568e88611b98122889b5afc94872626758b03"
+  }
+}

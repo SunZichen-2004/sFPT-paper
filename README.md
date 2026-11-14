@@ -92,3 +92,14 @@ python experiments/rearrangement_water_fpt/extract_reaction_pdb.py --trajectory 
 ```
 
 It writes selected substrate/transition-region/product PDBs, a PyMOL script and a structural schematic. The neural maximum-likelihood FES fitter remains in the core library and has been smoke-tested directly on the consolidated NPZ format.
+
+## Archived variation and random-number streams
+
+The cleaned runners explicitly seed TorchSim's per-state RNG as well as the global PyTorch RNG. The archived scripts used global PyTorch seed settings. Nominal seed labels are retained; bitwise trajectory equality across software versions and RNG implementations is not assumed.
+
+The archived reaction WT-MetaD runs have substantial 25 ps variation. Their basin free-energy differences are −11.66, −7.99 and −7.98 kcal/mol; the new seed-0 result is −8.19 kcal/mol. Its two-dimensional FES RMSE against those three original runs is 1.99, 0.73 and 0.63 kcal/mol, respectively. The complete comparisons remain in the report. This is descriptive run-to-run variation, rather than a confidence interval or a fitted acceptance threshold. Recompute it from the included archived data with:
+
+```bash
+python analyze_reaction_variation.py --device cuda
+python summarize.py
+```

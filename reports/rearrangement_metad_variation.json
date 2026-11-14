@@ -1,0 +1,44 @@
+{
+  "time_ps": 25,
+  "walkers": 64,
+  "new_seed": 0,
+  "new_delta_g": -8.191152579396766,
+  "original_seed_delta_g": [
+    -11.661014936476331,
+    -7.9890791473134675,
+    -7.979748383300896
+  ],
+  "original_mean_delta_g": -9.209947489030233,
+  "original_sample_sd_delta_g": 2.1226918028146993,
+  "new_within_original_observed_delta_g_range": true,
+  "original_pairwise_fes_rmse": [
+    {
+      "seeds": [
+        0,
+        1
+      ],
+      "rmse_kcal_mol": 1.724015245732276
+    },
+    {
+      "seeds": [
+        0,
+        2
+      ],
+      "rmse_kcal_mol": 1.7882515016993765
+    },
+    {
+      "seeds": [
+        1,
+        2
+      ],
+      "rmse_kcal_mol": 0.963386256295183
+    }
+  ],
+  "new_vs_original_fes_rmse": [
+    1.9949035676372258,
+    0.7265908825028884,
+    0.6316793585142856
+  ],
+  "mask": "original seed-0 FES below 12 kcal/mol",
+  "interpretation": "Descriptive variation across three archived runs; not a fitted tolerance or confidence interval."
+}
