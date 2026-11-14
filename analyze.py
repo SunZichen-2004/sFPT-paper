@@ -102,6 +102,35 @@ def paper_surface(case):
         )
 
 
+def compare_paper_surface(case, actual):
+    axes, surface, (i, j) = paper_surface(case)
+    axes = [np.asarray(a) for a in axes]
+    surface = np.asarray(surface, dtype=float)
+    if not case.startswith("rearrangement"):
+        for dim in (0, 1):
+            if np.isclose(axes[dim][-1] - axes[dim][0], 2 * np.pi):
+                axes[dim] = axes[dim][:-1]
+                surface = np.take(surface, np.arange(len(axes[dim])), axis=dim)
+        axes = [np.concatenate([a - 2 * np.pi, a, a + 2 * np.pi]) for a in axes]
+        surface = np.tile(surface, (3, 3))
+    target_axes = [actual[f"axis_{i}"], actual[f"axis_{j}"]]
+    points = np.stack(np.meshgrid(*target_axes, indexing="ij"), -1)
+    reference = RegularGridInterpolator(
+        axes, surface, bounds_error=False, fill_value=np.nan
+    )(points)
+    reference -= np.nanmin(reference)
+    value = actual[f"fes_2d_{i}_{j}"]
+    mask = np.isfinite(reference) & np.isfinite(value) & (reference < 12)
+    error = value[mask] - reference[mask]
+    return dict(
+        rmse_kcal_mol=float(np.sqrt(np.mean(error**2))),
+        offset_aligned_rmse_kcal_mol=float(np.std(error)),
+        reference_cutoff_kcal_mol=12,
+        points=int(mask.sum()),
+        projection_axes=[i, j],
+    )
+
+
 def make_figure(case, actual, original, path):
     import matplotlib
 
@@ -135,7 +164,14 @@ def make_figure(case, actual, original, path):
             cmap="viridis",
             shading="auto",
         )
-        ax.set(xlabel=f"CV {i + 1}", ylabel=f"CV {j + 1}", title=title)
+        labels = (
+            [r"$d_1$ / Å", r"$d_2$ / Å"]
+            if system == "rearrangement"
+            else [r"$\phi_2$ / rad", r"$\phi_3$ / rad"]
+            if system == "tetra_alanine"
+            else [r"$\phi$ / rad", r"$\psi$ / rad"]
+        )
+        ax.set(xlabel=labels[0], ylabel=labels[1], title=title)
     fig.colorbar(m, ax=axs, label="F / kcal mol$^{-1}$", shrink=0.85)
     fig.suptitle(case.replace("_", " "))
     fig.savefig(path, dpi=180)
@@ -158,7 +194,11 @@ def main():
     derived.mkdir(exist_ok=True)
     out = ROOT / "reports"
     out.mkdir(exist_ok=True)
-    summary = {}
+    summary = (
+        json.loads((out / "summary.json").read_text())
+        if (out / "summary.json").exists()
+        else {}
+    )
     for case in cases:
         reference_path = derived / f"{case}_25ps_fes.npz"
         if args.force or not reference_path.exists():
@@ -182,6 +222,24 @@ def main():
                     ),
                 }
                 continue
+            config = json.loads((ROOT / "cases.json").read_text())[case]
+            metadata = json.loads(str(z["metadata_json"]))
+            for key in (
+                "seed",
+                "replicas",
+                "timestep",
+                "temperature",
+                "langevin_friction",
+            ):
+                if not np.isclose(float(metadata[key]), float(config[key])):
+                    raise ValueError(
+                        f"{case}: archive parameter {key} does not match cases.json"
+                    )
+            expected_init = (ROOT / config["init_npy"]).resolve()
+            if Path(metadata["init_npy"]).resolve() != expected_init:
+                raise ValueError(f"{case}: archive used a different initial ensemble")
+            if z["cv"].shape[1] != config["replicas"] or "coordinates" not in z:
+                raise ValueError(f"{case}: incomplete ensemble/coordinate output")
             elapsed = float(z["time_ps"][z["phase"] == "production"].max())
         if not np.isclose(elapsed, 25):
             raise ValueError(f"{case}: production length {elapsed}, expected 25 ps")
@@ -191,6 +249,7 @@ def main():
         with np.load(reference_path) as z:
             reference = {k: z[k] for k in z.files}
         metrics = compare(result, reference)
+        metrics["paper_reference_2d_fes"] = compare_paper_surface(case, result)
         system = system_of(case)
         metrics.update(
             status="analyzed",

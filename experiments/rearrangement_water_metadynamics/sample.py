@@ -23,7 +23,7 @@ import torch
 ROOT = Path(__file__).resolve().parents[2]
 EXPERIMENT_DIR = Path(__file__).resolve().parent
 MACE_EXP = EXPERIMENT_DIR.parent / "rearrangement_mace"
-sys.path.insert(0, str(MACE_EXP))
+sys.path.insert(0, str(EXPERIMENT_DIR))
 os.environ.setdefault("TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD", "1")
 from io_utils import load_xyz
 from fp_transformer_torch import (

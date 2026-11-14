@@ -97,5 +97,6 @@
   "experiments/tetra_alanine_sFPT/tetra_alanine_mass.txt": "a9aa7fa3153a037898c4f5903245c09a061c81c0bf3edfdd0630f99391908e25",
   "experiments/tetra_alanine_sFPT/tetra_alanine_nb14.txt": "fe300091c45a3e2ca207ea98e3819a7f76506dd981bc921f97988c3c1d16de56",
   "experiments/tetra_alanine_sFPT/tetra_alanine_residue.txt": "46d14a2d81869cef03105add6656b3b9bb092193a73ccf06f0dc5e57474dec11",
-  "experiments/tetra_alanine_sFPT/tetra_alanine_resname.txt": "76f174617d979e7b0b5d623cf1c0ff57c78a84cac50dbd67bb57f785062ce1d5"
+  "experiments/tetra_alanine_sFPT/tetra_alanine_resname.txt": "76f174617d979e7b0b5d623cf1c0ff57c78a84cac50dbd67bb57f785062ce1d5",
+  "experiments/tetra_alanine_sFPT/init_coords_1024.npy": "1498ddb1066f042654910af9c083ef3454ac747f6c2270bc071cfbfa364a7df3"
 }

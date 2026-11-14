@@ -40,7 +40,7 @@ python run_case.py tetra_alanine_sfpt
 
 The eight case names and resolved parameter sets are in `cases.json`. Paths are resolved relative to this repository. `--dry-run` prints the complete command; `--steps 100 --output smoke/example` provides a short dynamics check. Every standalone `experiments/*/sample.py` also has `--help`.
 
-Vacuum and water WT-MetaD retain the selected original scripts' 5 ps and 10 ps unbiased preparation, respectively. Reaction sFPT retains 0.1 ps of unbiased preparation before healing. Tetra-alanine uses the paper's initial ensemble after its additional 1 ps unbiased relaxation. These times are excluded from the 25 ps production time.
+Vacuum and water WT-MetaD retain the selected original scripts' 5 ps and 10 ps unbiased preparation, respectively. Reaction sFPT retains 0.1 ps of unbiased preparation before healing. Tetra-alanine sFPT uses the paper's 2048-configuration initial ensemble after its additional 1 ps unbiased relaxation; WT-MetaD retains the original submit script's 1024-configuration pool before subsampling 64 walkers. These times are excluded from the 25 ps production time.
 
 Run on an existing Slurm allocation:
 
@@ -71,6 +71,6 @@ The analysis reconstructs the full physical joint distribution before marginaliz
 
 sFPT final-window lengths are 5 ps (vacuum dipeptide), 10 ps (water), 20 ps (tetrapeptide) and 4 ps (reaction). The original and new 25 ps results use identical reconstruction windows. Metadynamics uses the cumulative bias at 25 ps. RMSE masks and minimum-shift conventions are recorded with the metrics. The paper's basin-error guides are reported separately; they are not confidence intervals or proof of full FES convergence.
 
-`references/` contains compact original 25 ps CV/bandwidth or HILLS archives and the longer paper surfaces. `references/provenance.json` records their exact sources, time calibration and checksums. The archived reaction sFPT seed is 10; the requested new benchmark uses seed 0. All other selected original 25 ps references use seed 0.
+`references/` contains compact original 25 ps CV/bandwidth or HILLS archives and the longer paper surfaces. `references/provenance.json` records their exact sources, time calibration and checksums. All eight selected original 25 ps references use seed 0, matching the requested new benchmark. The original reaction run is 89109; its seed is verified from the saved run log.
 
 A 25 ps, single-seed benchmark has a different statistical scope from the paper's multi-seed static surfaces: vacuum dipeptide 25–50 ps, water 100–200 ps, tetra-alanine 450–500 ps (and WT-MetaD 10 ns), and reaction sFPT 79–83 ps. Agreement is evaluated quantitatively; short-run completion alone does not establish agreement with the final paper FES.

@@ -29,13 +29,25 @@ class Restart:
         if not self.path.exists():
             return initial_state
         # This file is a local, trusted runner artifact, never a downloaded checkpoint.
-        saved = torch.load(
-            self.path,
-            map_location=initial_state.device
+        target_device = (
+            initial_state.device
             if hasattr(initial_state, "device")
-            else initial_state.coordinate.device,
-            weights_only=False,
+            else initial_state.coordinate.device
         )
+        # Generator byte states must stay on CPU while unpickling. Mapping the
+        # whole checkpoint to CUDA also moves those byte tensors and breaks
+        # torch.Generator.__setstate__.
+        saved = torch.load(self.path, map_location="cpu", weights_only=False)
+        state = saved["state"]
+        if hasattr(state, "to"):
+            state = state.to(device=target_device)
+        else:
+            state.coordinate = state.coordinate.to(target_device)
+            state.momentum = state.momentum.to(target_device)
+            if state.generator is not None:
+                generator = torch.Generator(device=target_device)
+                generator.set_state(state.generator.get_state().cpu())
+                state.generator = generator
         self.offset = int(saved["step"])
         self.resumed = True
         self.recorder.rows = saved["rows"]
@@ -57,7 +69,7 @@ class Restart:
             f"[resume] restored complete state at production step {self.offset}",
             flush=True,
         )
-        return saved["state"]
+        return state
 
     def save(self, step, state, *, bias=None):
         if step % 1000 or step == self._last_saved:

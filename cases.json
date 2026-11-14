@@ -8,14 +8,28 @@
     "heal_steps": 500,
     "pre_md_steps": 100,
     "softmin_d_wall": 2.4,
-    "rescale_fixed_row_sum_max": 5,
+    "rescale_fixed_row_sum_max": 5.0,
     "mace_enable_cueq": true,
     "seed": 0,
     "timestep": 0.001,
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "update_pace": 20,
+    "rescale_bw_min": 0.001,
+    "rescale_bw_max": 4.0,
+    "rescale_fixed_row_sum_min": 2.0,
+    "rescale_adaptive_band_low": 0.8,
+    "rescale_adaptive_band_high": 1.2,
+    "mace_model": "mh-0",
+    "electrostatics": "pme",
+    "pme_cutoff": 9.0,
+    "pme_mesh_spacing": 1.5,
+    "wall_d_max": 8.0,
+    "wall_k": 10.0,
+    "softmin_a": 10.0,
+    "softmin_k": 10.0
   },
   "dialanine_vacuum_sfpt": {
     "script": "dialanine/sample.py",
@@ -28,12 +42,18 @@
     "init_npy": "experiments/dialanine/init_coords_256.npy",
     "langevin_friction": 10,
     "cv_grad_clip_norm": 1,
-    "rescale_bw_max": 8,
+    "rescale_bw_max": 8.0,
     "seed": 0,
     "timestep": 0.001,
     "temperature": 300,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "update_pace": 20,
+    "rescale_bw_min": 0.001,
+    "rescale_fixed_row_sum_min": 2.0,
+    "rescale_fixed_row_sum_max": 4.0,
+    "rescale_adaptive_band_low": 0.8,
+    "rescale_adaptive_band_high": 1.2
   },
   "dialanine_vacuum_metad": {
     "script": "dialanine_meta/sample.py",
@@ -48,7 +68,10 @@
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "metad_deposit_pace": 50,
+    "metad_bias_factor": 15.0,
+    "metad_sigma": "0.35,0.35"
   },
   "dialanine_water_sfpt": {
     "script": "dialanine_water/sFPT/sample.py",
@@ -65,7 +88,16 @@
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "update_pace": 20,
+    "rescale_bw_min": 0.001,
+    "rescale_bw_max": 8.0,
+    "rescale_fixed_row_sum_min": 2.0,
+    "rescale_fixed_row_sum_max": 4.0,
+    "rescale_adaptive_band_low": 0.8,
+    "rescale_adaptive_band_high": 1.2,
+    "pme_cutoff": 8.0,
+    "pme_mesh_spacing": 1.5
   },
   "dialanine_water_metad": {
     "script": "dialanine_water_meta/sample.py",
@@ -81,7 +113,12 @@
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "metad_deposit_pace": 50,
+    "metad_bias_factor": 15.0,
+    "metad_sigma": "0.35,0.35",
+    "pme_cutoff": 8.0,
+    "pme_mesh_spacing": 1.5
   },
   "tetra_alanine_sfpt": {
     "script": "tetra_alanine_sFPT/sample.py",
@@ -97,7 +134,14 @@
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 200
+    "dump_every": 200,
+    "update_pace": 20,
+    "rescale_bw_min": 0.001,
+    "rescale_bw_max": 8.0,
+    "rescale_fixed_row_sum_min": 2.0,
+    "rescale_fixed_row_sum_max": 4.0,
+    "rescale_adaptive_band_low": 0.8,
+    "rescale_adaptive_band_high": 1.2
   },
   "tetra_alanine_metad": {
     "script": "tetra_alanine_meta/sample.py",
@@ -105,20 +149,23 @@
     "method": "metad",
     "metad_height": 0.02,
     "metad_grid_n": 81,
-    "init_npy": "experiments/tetra_alanine_sFPT/init_coords_2048.npy",
+    "init_npy": "experiments/tetra_alanine_sFPT/init_coords_1024.npy",
     "seed": 0,
     "timestep": 0.001,
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "metad_deposit_pace": 50,
+    "metad_bias_factor": 15.0,
+    "metad_sigma": "0.35,0.35,0.35"
   },
   "rearrangement_metad": {
     "script": "rearrangement_water_metadynamics/sample.py",
     "replicas": 64,
     "method": "metad",
     "metad_height": 0.02,
-    "metad_bias_factor": 30,
+    "metad_bias_factor": 30.0,
     "metad_sigma": "0.2,0.2",
     "metad_grid_n": 81,
     "init_npy": "experiments/rearrangement_water_metadynamics/init_coords.npy",
@@ -129,6 +176,15 @@
     "temperature": 300,
     "langevin_friction": 10,
     "production_steps": 25000,
-    "dump_every": 100
+    "dump_every": 100,
+    "metad_deposit_pace": 50,
+    "mace_model": "mh-0",
+    "electrostatics": "pme",
+    "pme_cutoff": 9.0,
+    "pme_mesh_spacing": 1.5,
+    "wall_d_max": 8.0,
+    "wall_k": 10.0,
+    "softmin_a": 10.0,
+    "softmin_k": 10.0
   }
 }

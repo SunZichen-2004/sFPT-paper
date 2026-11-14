@@ -25,12 +25,12 @@
     "archive_sha256": "92a6d76a2fc64e6b0edd3e97048634dcc8db079309ca170e753b4044864deea1"
   },
   "rearrangement_sfpt": {
-    "source": "fp_transformer_torch/experiments/rearrangement_water_fpt/raw_data/rearrangement_water_raw_merged_20261027",
+    "source": "fp_transformer_torch/experiments/rearrangement_water_fpt/raw_data/rearrangement_water_raw_merged_20261027: run 89109",
     "time_convention": "production time excludes preparation",
     "frames": 250,
     "replicas": 512,
-    "archive_sha256": "60da57c915ca1ef698de7295f70051bef0fd4bdb8bc72674eb34226020746ef5",
-    "original_seed": 10,
+    "archive_sha256": "16aa1b875e55cd8d55be46d00dddf888f3de43c7b267e1067237bb358ff86075",
+    "original_seed": 0,
     "requested_reproduction_seed": 0,
     "source_stage_interval_ps": 0.1
   },
@@ -61,5 +61,19 @@
     "replicas": 64,
     "hills": 32000,
     "archive_sha256": "1538bd501e01a2f58be8c177583892e2b1a4ec0662f8691f522dc9bf5f92dc09"
+  },
+  "rearrangement_paper_surface": {
+    "source": "raw joint CV/bandwidth for runs 89108/89109/89110",
+    "window_ps": [
+      79,
+      83
+    ],
+    "method": "per-run normalized physical probabilities, combined with equal weights before FES projection",
+    "lambda_value": 0.025,
+    "seeds": [
+      10,
+      0,
+      100
+    ]
   }
 }

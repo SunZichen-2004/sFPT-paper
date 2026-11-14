@@ -58,6 +58,63 @@ def main():
     except BlockingIOError:
         print("This case is already running in another worker.", flush=True)
         raise SystemExit(75)
+    # Atomic directory claims also protect runs across cluster nodes, where
+    # a filesystem may provide only node-local flock semantics.
+    import atexit
+    import shutil
+    import socket
+
+    claim = out / ".running"
+
+    def owner_alive():
+        try:
+            owner = json.loads((claim / "owner.json").read_text())
+        except (OSError, ValueError):
+            return time.time() - claim.stat().st_mtime < 60 if claim.exists() else False
+        job = owner.get("job_id")
+        if job:
+            status = subprocess.run(
+                ["squeue", "--noheader", "-j", str(job), "-o", "%T"],
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            return status == "RUNNING"
+        if owner.get("host") == socket.gethostname():
+            try:
+                os.kill(int(owner["pid"]), 0)
+                return True
+            except ProcessLookupError:
+                return False
+        return True
+
+    if claim.exists() and not owner_alive():
+        reaper = out / ".claim-reaper"
+        try:
+            reaper.mkdir()
+        except FileExistsError:
+            print("Another worker is reclaiming the expired run.", flush=True)
+            raise SystemExit(75)
+        try:
+            if claim.exists() and not owner_alive():
+                shutil.rmtree(claim)
+        finally:
+            reaper.rmdir()
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        print("This case is active on another node.", flush=True)
+        raise SystemExit(75)
+    (claim / "owner.json").write_text(
+        json.dumps(
+            dict(
+                job_id=os.environ.get("SLURM_JOB_ID"),
+                host=socket.gethostname(),
+                pid=os.getpid(),
+            )
+        )
+        + "\n"
+    )
+    atexit.register(shutil.rmtree, claim, ignore_errors=True)
     archive = out / "trajectory.npz"
     if archive.is_file():
         import numpy as np
@@ -83,7 +140,11 @@ def main():
     record.update(
         exit_code=result.returncode,
         stop_unix=time.time(),
-        status="complete" if result.returncode == 0 else "failed",
+        status="complete"
+        if result.returncode == 0
+        else "checkpointed"
+        if (out / "checkpoint.pt").exists()
+        else "failed",
     )
     (out / "run.json").write_text(json.dumps(record, indent=2) + "\n")
     raise SystemExit(result.returncode)
