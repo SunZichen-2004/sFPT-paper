@@ -565,84 +565,96 @@
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/metad_reference/fes_rmse_vs_time.npz",
       "sha256": "ee956e4d0ba37d802af0979dfdbad0e34ee084a2c18b4a0eaa92488eda627a2d",
       "bytes": 53533,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/dG_mae_vs_R.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/dG_mae_vs_R.npz",
       "sha256": "29445f715d9cf6a80928813dedcb17a24ae4066b30d6663ab1679d7d2cb68e21",
       "bytes": 3822,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_64/fes_rmse_vs_time.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_64/fes_rmse_vs_time.npz",
       "sha256": "12802983a48dd8d77cdc639b273cff54de149ebe017ba508af6aafca6406d99c",
       "bytes": 1541,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_64/fes_1d_all_groups.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_64/fes_1d_all_groups.npz",
       "sha256": "b0b4dc209548c4b8010efc5343c4a4169b4d384827e70852822c3815842e0ee0",
       "bytes": 118939,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_512/fes_rmse_vs_time.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_512/fes_rmse_vs_time.npz",
       "sha256": "dc4a50b10de9d4f324ede38317fe94469d833674bd1b3eceb273717d706417d8",
       "bytes": 1527,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_512/fes_1d_all_groups.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_512/fes_1d_all_groups.npz",
       "sha256": "e97894969856bc8ee2d12a84d81bfe56feb253516515998484a232a5fcdbc05a",
       "bytes": 131223,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_1024/fes_rmse_vs_time.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_1024/fes_rmse_vs_time.npz",
       "sha256": "1741494a4901645f57e5e85210c56495d6d5b5bed8e65ad86e49b55ac9173c13",
       "bytes": 1543,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_1024/fes_1d_all_groups.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_1024/fes_1d_all_groups.npz",
       "sha256": "2b495f2cde32617ef33f16c2a8c7cccbce923b193069f8e0c3f0877a2d02ba21",
       "bytes": 118684,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_128/fes_rmse_vs_time.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_128/fes_rmse_vs_time.npz",
       "sha256": "59ce078ce0dace8f346960bf3ffe0964e53a2308791ead706ab3b23cb8a5c4fc",
       "bytes": 1542,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_128/fes_1d_all_groups.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_128/fes_1d_all_groups.npz",
       "sha256": "e58b85fac4148ff5b81341a88392b3cdd5c31cbb81b1d2d76f1793acc5ab616a",
       "bytes": 118604,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_320/fes_rmse_vs_time.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_320/fes_rmse_vs_time.npz",
       "sha256": "345be630acbde86c32e6be10e1c8aded346f3f8a57ed65b440d508cd5f1ba32b",
       "bytes": 1539,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_320/fes_1d_all_groups.npz",
       "source": "fp_transformer_torch/experiments/dialanine_water/replica_number_scan/replica_ab_dt3ps_data/data/dt3ps/convergence_320/fes_1d_all_groups.npz",
       "sha256": "70d60378902a69130e42f921501ecefaeedea8cfa9cb195531e31662ae79de86",
       "bytes": 147562,
-      "kind": "source_cache"
+      "kind": "source_cache",
+      "usage_note": "Historical 3ps input/reference cache. Some sFPT fields retain legacy1/lambda scaling; use canonical fes_time/ or corrected5/10ps source caches for the paper physical FES."
     },
     {
       "path": "sources/dialanine_water/replica_number_scan/rms_scan_5_10ps/sfpt_intervals.npz",
