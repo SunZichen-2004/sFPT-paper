@@ -1,0 +1,11 @@
+{
+  "rearrangement_metad_seed0_archived_deltaG_max_difference": 0.0,
+  "rearrangement_metad_seed1_archived_deltaG_max_difference": 0.0,
+  "rearrangement_metad_seed2_archived_deltaG_max_difference": 0.0,
+  "dialanine_vacuum_metad_seed0_archived_FES_max_difference": 6.394884621840902e-14,
+  "dialanine_vacuum_metad_seed1_archived_FES_max_difference": 4.263256414560601e-14,
+  "dialanine_vacuum_metad_seed2_archived_FES_max_difference": 6.394884621840902e-14,
+  "dialanine_water_metad_seed0_archived_FES_max_difference": 0.0,
+  "dialanine_water_metad_seed1_archived_FES_max_difference": 0.0,
+  "dialanine_water_metad_seed2_archived_FES_max_difference": 0.0
+}

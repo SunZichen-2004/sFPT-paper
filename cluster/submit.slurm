@@ -10,4 +10,4 @@ set -euo pipefail
 cd "${SLURM_SUBMIT_DIR}"
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-4} MPLBACKEND=Agg PYTHONUNBUFFERED=1
 : "${CASE:?Set CASE to a name in cases.json}"
-python -u run_case.py "$CASE"
+python -u run_case.py "$CASE" --protocol "${PROTOCOL:-paper}" --seed "${SEED:-0}"

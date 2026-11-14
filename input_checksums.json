@@ -12,7 +12,12 @@
   "experiments/dialanine/dialanine_exclude.txt": "c97de59e3d122003d1f60f568542315aee3f039483c83ce8044119ee063493cc",
   "experiments/dialanine/dialanine_mass.txt": "b4e5294b0a659bba27ac11b9d7d695bef706b89cbc6b0326eefe697d7f0abba6",
   "experiments/dialanine/dialanine_nb14.txt": "ffbe1e979f54eb7579d98fa25325d4f9afe0b3dc55f01c0f5a4e25149eb653e8",
+  "experiments/dialanine/init_coords_1024.npy": "ae2635d726a612d90dc7ebb94e80f76dc5c9e0ad6c74dc57c75b2de18ef3c1ab",
+  "experiments/dialanine/init_coords_128.npy": "198ac664ed192ba5f0f575844ef84998f41a59b43bfa5f079ba6533fd1290699",
+  "experiments/dialanine/init_coords_2048.npy": "56a0d973add52f276094f7ea9de5e024154c7ec397c46085089ec07bdd88f047",
   "experiments/dialanine/init_coords_256.npy": "5dc3058c7340c1d48d2763211560b78667f9c52806c476b89e62ad2514e9ea94",
+  "experiments/dialanine/init_coords_512.npy": "12866fcd49d9cb702764928cda7f3f9415375cf81eb85f61bce921a2a3fa6c1e",
+  "experiments/dialanine/init_coords_64.npy": "774c3f7b686b5a57edf781cb814e1ed1222361ae56a62f65815d7a7f26f7ddc1",
   "experiments/dialanine_water/init_coords_1024.npy": "0c833fe28828d78b4954af065d17df37f121597ea954d2b1f28c0c4d3cea2d4e",
   "experiments/dialanine_water/mm_box/README.txt": "99183e408d28fa5203d379f693c2f8cf79d1765e8bd9b9a01362404d0cf55b27",
   "experiments/dialanine_water/mm_box/backbone_cv.txt": "7d2318b7f0eb88c72150a0c299286533a74135ce2a0c648530a567dc4a95ac1d",
@@ -81,7 +86,12 @@
   "experiments/rearrangement_water_metadynamics/mlmm_box/topology.npz": "f23aac96fb69f50773712e0dc08fc08f0db61e19d2410c5b8a58b55985f8ba47",
   "experiments/tetra_alanine_sFPT/backbone_cv.txt": "e960f1dd41ca3382193803d91e8ee6703207c997bfd9caa18b82dc92bc032401",
   "experiments/tetra_alanine_sFPT/backbone_phi.txt": "9be66fc8db3d9c8755efd15402578d23128bd587bc7ad151542f38bbd955a8ee",
+  "experiments/tetra_alanine_sFPT/init_coords_1024.npy": "1498ddb1066f042654910af9c083ef3454ac747f6c2270bc071cfbfa364a7df3",
   "experiments/tetra_alanine_sFPT/init_coords_2048.npy": "403965d0d8eb1aec7b8c11e92b906cc34ea5f7cea42e7608a64fcea66881ab0c",
+  "experiments/tetra_alanine_sFPT/initial_ensemble/init_coords_1024.npy": "bb217e5bc070a863dc9f0d70ac4cc7e4bfb839fb8f9c9c29de0143389569dcda",
+  "experiments/tetra_alanine_sFPT/initial_ensemble/init_coords_2048.npy": "403965d0d8eb1aec7b8c11e92b906cc34ea5f7cea42e7608a64fcea66881ab0c",
+  "experiments/tetra_alanine_sFPT/initial_ensemble/init_coords_4096.npy": "0dbe7677fa65a72a060eff10a0faf873e8b9035bba40b98f908bcc93f9a13502",
+  "experiments/tetra_alanine_sFPT/initial_ensemble/init_coords_8192.npy": "10b3940e547a4ae637822989e64cd6942409483efb7f0781cf258b6a3814631e",
   "experiments/tetra_alanine_sFPT/tetra_alanine.pdb": "969f08a8119b6bf4aa797b167ffcc33946b05e8998c551da3bad02900ed13909",
   "experiments/tetra_alanine_sFPT/tetra_alanine.xyz": "0c43216df7f139a481158290de4575584ac2e003ef3c6476427b227f60ed7e3d",
   "experiments/tetra_alanine_sFPT/tetra_alanine_LJ.txt": "02c1d67b478e5d909f2563a9607726749d7fe0db0741ea12403a1538a9bf0f2f",
@@ -97,6 +107,5 @@
   "experiments/tetra_alanine_sFPT/tetra_alanine_mass.txt": "a9aa7fa3153a037898c4f5903245c09a061c81c0bf3edfdd0630f99391908e25",
   "experiments/tetra_alanine_sFPT/tetra_alanine_nb14.txt": "fe300091c45a3e2ca207ea98e3819a7f76506dd981bc921f97988c3c1d16de56",
   "experiments/tetra_alanine_sFPT/tetra_alanine_residue.txt": "46d14a2d81869cef03105add6656b3b9bb092193a73ccf06f0dc5e57474dec11",
-  "experiments/tetra_alanine_sFPT/tetra_alanine_resname.txt": "76f174617d979e7b0b5d623cf1c0ff57c78a84cac50dbd67bb57f785062ce1d5",
-  "experiments/tetra_alanine_sFPT/init_coords_1024.npy": "1498ddb1066f042654910af9c083ef3454ac747f6c2270bc071cfbfa364a7df3"
+  "experiments/tetra_alanine_sFPT/tetra_alanine_resname.txt": "76f174617d979e7b0b5d623cf1c0ff57c78a84cac50dbd67bb57f785062ce1d5"
 }

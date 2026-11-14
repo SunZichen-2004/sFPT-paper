@@ -1,0 +1,307 @@
+{
+  "dialanine_vacuum_sfpt": {
+    "parameters": {
+      "script": "dialanine/sample.py",
+      "replicas": 256,
+      "method": "sfpt",
+      "production_lambda": 0.1,
+      "heal_lambdas": "0.5,0.2",
+      "heal_steps": 500,
+      "pre_md_steps": 0,
+      "init_npy": "experiments/dialanine/init_coords_256.npy",
+      "langevin_friction": 10,
+      "cv_grad_clip_norm": 1,
+      "rescale_bw_max": 8.0,
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "production_steps": 50000,
+      "dump_every": 100,
+      "update_pace": 20,
+      "rescale_bw_min": 0.001,
+      "rescale_fixed_row_sum_min": 2.0,
+      "rescale_fixed_row_sum_max": 4.0,
+      "rescale_adaptive_band_low": 0.8,
+      "rescale_adaptive_band_high": 1.2
+    },
+    "production_ps": 50,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 5,
+    "sfpt_window_ps": 5,
+    "static_fes_window_ps": [
+      25,
+      50
+    ]
+  },
+  "dialanine_vacuum_metad": {
+    "parameters": {
+      "script": "dialanine_meta/sample.py",
+      "replicas": 256,
+      "method": "metad",
+      "metad_height": 0.005,
+      "metad_grid_n": 81,
+      "pre_md_steps": 5000,
+      "init_npy": "experiments/dialanine/init_coords_256.npy",
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 50000,
+      "dump_every": 100,
+      "metad_deposit_pace": 50,
+      "metad_bias_factor": 15.0,
+      "metad_sigma": "0.35,0.35"
+    },
+    "production_ps": 50,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 1,
+    "sfpt_window_ps": null,
+    "static_fes_window_ps": [
+      25,
+      50
+    ]
+  },
+  "dialanine_water_sfpt": {
+    "parameters": {
+      "script": "dialanine_water/sFPT/sample.py",
+      "replicas": 320,
+      "method": "sfpt",
+      "production_lambda": 0.0625,
+      "heal_lambdas": "0.5,0.1",
+      "heal_steps": 100,
+      "pre_md_steps": 0,
+      "init_npy": "experiments/dialanine_water/init_coords_1024.npy",
+      "electrostatics": "pme",
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 200000,
+      "dump_every": 100,
+      "update_pace": 20,
+      "rescale_bw_min": 0.001,
+      "rescale_bw_max": 8.0,
+      "rescale_fixed_row_sum_min": 2.0,
+      "rescale_fixed_row_sum_max": 4.0,
+      "rescale_adaptive_band_low": 0.8,
+      "rescale_adaptive_band_high": 1.2,
+      "pme_cutoff": 8.0,
+      "pme_mesh_spacing": 1.5
+    },
+    "production_ps": 200,
+    "seeds": [
+      0,
+      2
+    ],
+    "fes_interval_ps": 10,
+    "sfpt_window_ps": 10,
+    "static_fes_window_ps": [
+      100,
+      200
+    ]
+  },
+  "dialanine_water_metad": {
+    "parameters": {
+      "script": "dialanine_water_meta/sample.py",
+      "replicas": 320,
+      "method": "metad",
+      "metad_height": 0.004,
+      "metad_grid_n": 81,
+      "pre_md_steps": 10000,
+      "init_npy": "experiments/dialanine_water/init_coords_1024.npy",
+      "electrostatics": "pme",
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 200000,
+      "dump_every": 100,
+      "metad_deposit_pace": 50,
+      "metad_bias_factor": 15.0,
+      "metad_sigma": "0.35,0.35",
+      "pme_cutoff": 8.0,
+      "pme_mesh_spacing": 1.5
+    },
+    "production_ps": 200,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 1,
+    "sfpt_window_ps": null,
+    "static_fes_window_ps": [
+      100,
+      200
+    ]
+  },
+  "tetra_alanine_sfpt": {
+    "parameters": {
+      "script": "tetra_alanine_sFPT/sample.py",
+      "replicas": 2048,
+      "method": "sfpt",
+      "production_lambda": 0.075,
+      "heal_lambdas": "",
+      "heal_steps": 100,
+      "init_npy": "experiments/tetra_alanine_sFPT/init_coords_2048.npy",
+      "cv_grad_clip_norm": 0,
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 500000,
+      "dump_every": 200,
+      "update_pace": 20,
+      "rescale_bw_min": 0.001,
+      "rescale_bw_max": 8.0,
+      "rescale_fixed_row_sum_min": 2.0,
+      "rescale_fixed_row_sum_max": 4.0,
+      "rescale_adaptive_band_low": 0.8,
+      "rescale_adaptive_band_high": 1.2
+    },
+    "production_ps": 500,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 20,
+    "sfpt_window_ps": 20,
+    "static_fes_window_ps": [
+      450,
+      500
+    ]
+  },
+  "tetra_alanine_metad": {
+    "parameters": {
+      "script": "tetra_alanine_meta/sample.py",
+      "replicas": 64,
+      "method": "metad",
+      "metad_height": 0.02,
+      "metad_grid_n": 81,
+      "init_npy": "experiments/tetra_alanine_sFPT/init_coords_1024.npy",
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 10000000,
+      "dump_every": 100,
+      "metad_deposit_pace": 50,
+      "metad_bias_factor": 15.0,
+      "metad_sigma": "0.35,0.35,0.35"
+    },
+    "production_ps": 10000,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 20,
+    "sfpt_window_ps": null,
+    "static_fes_window_ps": [
+      10000,
+      10000
+    ],
+    "fes_time_series_ps": [
+      20,
+      500
+    ],
+    "note": "Paper time series spans0\u2013500ps; final static projections at10000ps. Available snapshots are recorded explicitly, with no interpolation across the gap."
+  },
+  "rearrangement_sfpt": {
+    "parameters": {
+      "script": "rearrangement_water_fpt/sample.py",
+      "replicas": 512,
+      "method": "sfpt",
+      "production_lambda": 0.025,
+      "heal_lambdas": "0.1,0.05",
+      "heal_steps": 500,
+      "pre_md_steps": 100,
+      "softmin_d_wall": 2.4,
+      "rescale_fixed_row_sum_max": 5.0,
+      "mace_enable_cueq": true,
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 83000,
+      "dump_every": 100,
+      "update_pace": 20,
+      "rescale_bw_min": 0.001,
+      "rescale_bw_max": 4.0,
+      "rescale_fixed_row_sum_min": 2.0,
+      "rescale_adaptive_band_low": 0.8,
+      "rescale_adaptive_band_high": 1.2,
+      "mace_model": "mh-0",
+      "electrostatics": "pme",
+      "pme_cutoff": 9.0,
+      "pme_mesh_spacing": 1.5,
+      "wall_d_max": 8.0,
+      "wall_k": 10.0,
+      "softmin_a": 10.0,
+      "softmin_k": 10.0
+    },
+    "production_ps": 83,
+    "seeds": [
+      10,
+      0,
+      100
+    ],
+    "fes_interval_ps": 4,
+    "sfpt_window_ps": 4,
+    "static_fes_window_ps": [
+      79,
+      83
+    ],
+    "note": "Complete4ps windows end at80ps; static final FES uses79\u201383ps."
+  },
+  "rearrangement_metad": {
+    "parameters": {
+      "script": "rearrangement_water_metadynamics/sample.py",
+      "replicas": 64,
+      "method": "metad",
+      "metad_height": 0.02,
+      "metad_bias_factor": 30.0,
+      "metad_sigma": "0.2,0.2",
+      "metad_grid_n": 81,
+      "init_npy": "experiments/rearrangement_water_metadynamics/init_coords.npy",
+      "softmin_d_wall": 2.4,
+      "mace_enable_cueq": true,
+      "seed": 0,
+      "timestep": 0.001,
+      "temperature": 300,
+      "langevin_friction": 10,
+      "production_steps": 400000,
+      "dump_every": 100,
+      "metad_deposit_pace": 50,
+      "mace_model": "mh-0",
+      "electrostatics": "pme",
+      "pme_cutoff": 9.0,
+      "pme_mesh_spacing": 1.5,
+      "wall_d_max": 8.0,
+      "wall_k": 10.0,
+      "softmin_a": 10.0,
+      "softmin_k": 10.0
+    },
+    "production_ps": 400,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "fes_interval_ps": 1,
+    "sfpt_window_ps": null,
+    "static_fes_window_ps": [
+      400,
+      400
+    ]
+  }
+}

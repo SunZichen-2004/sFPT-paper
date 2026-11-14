@@ -1,112 +1,101 @@
 # sFPT paper experiments
 
-Standalone inputs, single-seed reproduction runners, original comparison data and FES analysis for the subspace Fokker–Planck Transformer paper. The sampling library is maintained separately in [fp_transformer_torch](https://github.com/SunZichen-2004/fp_transformer_torch).
+Inputs, protocols, sampling scripts and FES data for the subspace Fokker–Planck Transformer paper. This repository supplies the molecular force fields, topologies, initial structures and ensembles needed to run the experiments with both sFPT and well-tempered metadynamics. The sampling library is maintained in [fp_transformer_torch](https://github.com/SunZichen-2004/fp_transformer_torch).
 
-Each case requests 25 ps of **production per replica**, with seed 0, a 1 fs timestep, temperature 300 K and friction 10/ps. Preparation is additional and is recorded separately.
+## What is included
 
-| System | sFPT replicas | Production lambda | Healing | WT-MetaD walkers | Initial hill height / eV | Bias factor |
-| --- | ---: | ---: | --- | ---: | ---: | ---: |
-| Dialanine, vacuum | 256 | 0.1 | 0.5 then 0.2; 500 steps each | 256 | 0.005 | 15 |
-| Dialanine, water | 320 | 0.0625 | 0.5 then 0.1; 100 steps each | 320 | 0.004 | 15 |
-| Tetra-alanine, vacuum | 2048 | 0.075 | none | 64 | 0.02 | 15 |
-| Claisen rearrangement, water | 512 | 0.025 | 0.1 then 0.05; 500 steps each | 64 | 0.02 | 30 |
+| System | Molecular inputs | sFPT replicas / lambda | WT-MetaD walkers / hill height | Production per replica: sFPT / WT-MetaD |
+| --- | --- | --- | --- | --- |
+| Dialanine, vacuum | Amber parameter tables, structure, CV definitions and replica-specific initial pools | 256 / 0.1 | 256 / 0.005 eV | 50 ps / 50 ps |
+| Dialanine, water | Explicit TIP3P box, MM topology, CV definitions and initial ensemble | 320 / 0.0625 | 320 / 0.004 eV | 200 ps / 200 ps |
+| Tetra-alanine, vacuum | Amber parameter tables, structure, three torsions and prepared initial ensembles | 2048 / 0.075 | 64 / 0.02 eV | 500 ps / 10 ns |
+| Claisen rearrangement, water | Reacting solute, explicit TIP3P box, MM/ML partition, topology and distance CVs | 512 / 0.025 | 64 / 0.02 eV | 83 ps / 400 ps |
 
-Metadynamics deposits every 50 steps. Alanine widths are 0.35 rad per CV; reaction widths are 0.2 Å. The matched dipeptide settings and reaction walker scan keep the nominal initial sum of hill heights at `R*h = 1.28 eV`.
+[The protocol guide](docs/protocols.md) specifies preparation, healing, seeds, integration, PME, metadynamics settings, initial-pool selection and FES windows. [protocols/paper.json](protocols/paper.json) contains the runnable parameters. [input_checksums.json](input_checksums.json) identifies every supplied molecular input.
 
-The supplied SPONGE-format alanine parameter tables encode the Amber force field used by the paper; the loader retains its historical `GaffPotential` name. Water boxes, MM topologies and initial ensembles are included. The reaction loads MACE-MH-0 from the model cache; its checkpoint is not redistributed here. `input_checksums.json` records every molecular input.
-
-## Installation
-
-Install the cleaned library branch alongside this repository:
+## Install
 
 ```bash
 git clone https://github.com/SunZichen-2004/sFPT-paper.git
 git clone https://github.com/SunZichen-2004/fp_transformer_torch.git
 cd fp_transformer_torch
 git checkout 7b9ba3f
-pip install -e ".[simulation,mlip,analysis,dev]"
+pip install -e ".[simulation,mlip,analysis]"
 cd ../sFPT-paper
 pip install -r requirements.txt
+python check_inputs.py
 ```
 
-The observed package versions are recorded in `environment-tested.json`. CUDA production runs require a suitable GPU. `--device cpu` in an individual runner is intended for small diagnostics.
+Use a CUDA-enabled PyTorch installation for production dynamics. [environment-tested.json](environment-tested.json) records the tested package versions. The bundled-data plots do not require a GPU; `fes_time.py plot` reads the bundled numerical data directly.
 
-## Reaction model checkpoint
-
-The reaction uses MACE-MH-0 with the `omol` head from the [official MACE release](https://github.com/ACEsuit/mace-foundations/releases/tag/mace_mh_1). Stage and verify the exact tested checkpoint before running reaction cases:
+The reaction uses the **MACE-MH-0, omol head** model. Download and verify its exact upstream checkpoint with:
 
 ```bash
 python download_model.py
 ```
 
-The helper checks `model_checksums.json` and places the model at `~/.cache/mace/macemh0model`, which is the sampling library's expected cache path. It reuses an existing file only when its SHA-256 matches. Model weights are downloaded from the upstream release and are not bundled in this repository.
+The model is placed in the sampling library's cache; its URL, size and SHA-256 are in [model_checksums.json](model_checksums.json). Reaction protocols enable cuEquivariance. Install `mace-torch[cueq]` and the cuEquivariance operations package matching your PyTorch CUDA version; the tested CUDA 13 setup uses `cuequivariance-ops-torch-cu13`. CUDA 12 installations use the corresponding `cu12` package.
 
-## Run
+## Run the experiments
 
-```bash
-python run_case.py dialanine_vacuum_sfpt
-python run_case.py dialanine_vacuum_metad
-python run_case.py tetra_alanine_sfpt
-```
-
-The eight case names and resolved parameter sets are in `cases.json`. Paths are resolved relative to this repository. `--dry-run` prints the complete command; `--steps 100 --output smoke/example` provides a short dynamics check. Every standalone `experiments/*/sample.py` also has `--help`.
-
-Vacuum and water WT-MetaD retain the selected original scripts' 5 ps and 10 ps unbiased preparation, respectively. Reaction sFPT retains 0.1 ps of unbiased preparation before healing. Tetra-alanine sFPT uses the paper's 2048-configuration initial ensemble after its additional 1 ps unbiased relaxation; WT-MetaD retains the original submit script's 1024-configuration pool before subsampling 64 walkers. These times are excluded from the 25 ps production time.
-
-Run on an existing Slurm allocation:
+The default protocol uses the full paper production lengths above. For example:
 
 ```bash
-srun --jobid=YOUR_JOB_ID -N1 -n1 -c12 python run_case.py rearrangement_sfpt
+python run_case.py dialanine_vacuum_sfpt --seed 0
+python run_case.py dialanine_water_metad --seed 0
+python run_case.py tetra_alanine_sfpt --seed 0
+python run_case.py rearrangement_metad --seed 0
 ```
 
-Alternatively, submit the supplied portable template:
+The eight case names are the four systems `dialanine_vacuum`, `dialanine_water`, `tetra_alanine` and `rearrangement`, each ending in `_sfpt` or `_metad`. `--dry-run` prints the resolved command and production time. See the protocol guide for each method's seed list. Runs are saved under `results/paper/CASE/seed_N/`.
+
+A Slurm template is provided; adjust its resource directives for your cluster:
 
 ```bash
-sbatch --export=ALL,CASE=dialanine_water_sfpt cluster/submit.slurm
+sbatch --export=ALL,CASE=dialanine_water_sfpt,SEED=0 cluster/submit.slurm
 ```
 
-## Output and continuation
+Replica and lambda scans use the same force fields and runners. `--replicas`, `--production-lambda`, `--hill-height`, `--seed`, `--steps` and `--init-npy` select the variants listed in [protocols/scans.json](protocols/scans.json). Prepared tetra-alanine pools for 1024–8192 replicas and vacuum dipeptide pools for 64–2048 replicas are included. Custom initial files require an explicit `--output` directory.
 
-The completed result is `results/CASE/trajectory.npz`, with explicit frame/replica/CV axes, full coordinates by default, bandwidths, phase, time, lambda, metadata and completeness status. Metadynamics also saves every deposited hill and its final B-spline bias grid. No per-stage NPY fragments are produced.
+## FES versus time
 
-A local `checkpoint.pt` is written once per ps during a running calculation. Repeating the command restores coordinates, momenta, bandwidth, accumulated output and RNG states. The temporary checkpoint is removed after the complete NPZ is written. Checkpoints are trusted local Python state and should only be resumed from your own run directory. A failed run's NPZ is explicitly marked incomplete.
-
-## Compare with original results
+[data/](data/README.md) contains **23 per-seed FES time series** for all four systems and both methods, together with the numerical source caches for the paper and SI replica/lambda scans. These include full FES arrays, time axes, angular/distance grids, basin differences and reconstruction metadata. The original stored time points and numerical precision are retained.
 
 ```bash
-python analyze.py --references-only --device cuda
-python analyze.py --device cuda
-python validate_archives.py
-python summarize.py
+python fes_time.py verify
+python fes_time.py plot --case dialanine_vacuum_sfpt --seed 0
+python fes_time.py plot --case tetra_alanine_metad --seed 0 --times 20 100 500
 ```
 
-The analysis reconstructs the full physical joint distribution before marginalization. It reports one- and two-dimensional FES RMSE in kcal/mol, the basin free-energy difference, and its difference from both the original 25 ps calculation and the independent paper reference. Figures compare new 25 ps, original 25 ps, and long-time paper/REMD surfaces. All metrics and scientific plots are written to `reports/`.
+The time-series plots combine FES snapshots and the full basin-population curve. [data/catalog.json](data/catalog.json) records file checksums, per-seed coverage and source locations. Source caches retain their native field names; the main time series share the schema described in [data/README.md](data/README.md).
 
-See the [benchmark results](reports/README.md) for the current comparisons. `validate_archives.py` additionally verifies all bundled molecular-input checksums, full coordinate/CV shapes and finite values, equality of the final coordinates with the last stored frame, and agreement of the stored final CVs with CVs recalculated from those coordinates. It records trajectory SHA-256 checksums in `reports/archive_integrity.json`.
-
-sFPT final-window lengths are 5 ps (vacuum dipeptide), 10 ps (water), 20 ps (tetrapeptide) and 4 ps (reaction). The original and new 25 ps results use identical reconstruction windows. Metadynamics uses the cumulative bias at 25 ps. RMSE masks and minimum-shift conventions are recorded with the metrics. The paper's basin-error guides are reported separately; they are not confidence intervals or proof of full FES convergence.
-
-`references/` contains compact original 25 ps CV/bandwidth or HILLS archives and the longer paper surfaces. `references/provenance.json` records their exact sources, time calibration and checksums. All eight selected original 25 ps references use seed 0, matching the requested new benchmark. The original reaction run is 89109; its seed is verified from the saved run log.
-
-A 25 ps, single-seed benchmark has a different statistical scope from the paper's multi-seed static surfaces: vacuum dipeptide 25–50 ps, water 100–200 ps, tetra-alanine 450–500 ps (and WT-MetaD 10 ns), and reaction sFPT 79–83 ps. Agreement is evaluated quantitatively; short-run completion alone does not establish agreement with the final paper FES.
-
-The paper explicitly labels the tetra-alanine REMD population estimate as preliminary, rather than a certified equilibrium reference. Its sFPT basin estimate approaches that reference around 40–60 ps. The requested 25 ps runs therefore assess the early-time reproduction, with the longer reference retained for context.
-
-The retained reaction structural postprocessing reads the same complete archive:
+For a newly generated trajectory, reconstruct the FES at successive times with:
 
 ```bash
-python experiments/rearrangement_water_fpt/extract_reaction_pdb.py --trajectory results/rearrangement_sfpt/trajectory.npz
+python fes_time.py reconstruct --case dialanine_vacuum_sfpt \
+  --trajectory results/paper/dialanine_vacuum_sfpt/seed_0/trajectory.npz \
+  --output analysis/dialanine_vacuum_sfpt_seed0.npz --device cuda
+python fes_time.py plot --input analysis/dialanine_vacuum_sfpt_seed0.npz \
+  --output analysis/dialanine_vacuum_sfpt_seed0.png
 ```
 
-It writes selected substrate/transition-region/product PDBs, a PyMOL script and a structural schematic. The transition-region frame is selected by its CVs; it is not an optimized transition state. The neural maximum-likelihood FES fitter remains in the core library and has been smoke-tested directly on the consolidated NPZ format.
+## Trajectories and postprocessing
 
-## Archived variation and random-number streams
+Each run writes one complete `trajectory.npz` containing full coordinates, CVs, explicit time/replica axes, sFPT bandwidths and lambda, metadata and a completeness flag. WT-MetaD also stores the deposited hills and final bias grid. Preparation and production times are separate. The fixed production lambda follows the prescribed healing stages.
 
-The cleaned runners explicitly seed TorchSim's per-state RNG as well as the global PyTorch RNG. The archived scripts used global PyTorch seed settings. Nominal seed labels are retained; bitwise trajectory equality across software versions and RNG implementations is not assumed.
+A local `checkpoint.pt` saves the simulation and RNG states once per ps. Repeat the same command to continue an interrupted calculation; the temporary checkpoint is removed after the complete NPZ is saved. Resume only checkpoints produced in your own run directory.
 
-The archived reaction WT-MetaD runs have substantial 25 ps variation. Their basin free-energy differences are −11.66, −7.99 and −7.98 kcal/mol; the new seed-0 result is −8.19 kcal/mol. Its two-dimensional FES RMSE against those three original runs is 1.99, 0.73 and 0.63 kcal/mol, respectively. The complete comparisons remain in the report. This is descriptive run-to-run variation, rather than a confidence interval or a fitted acceptance threshold. Recompute it from the included archived data with:
+The reaction structural postprocessor exports substrate, transition-region and product configurations, PDBs, a PyMOL script and a schematic:
 
 ```bash
-python analyze_reaction_variation.py --device cuda
-python summarize.py
+python experiments/rearrangement_water_fpt/extract_reaction_pdb.py \
+  --trajectory results/paper/rearrangement_sfpt/seed_0/trajectory.npz
 ```
+
+The core library also retains the neural maximum-likelihood FES fitter. Both KDE and WT-MetaD reconstruction form the physical joint probability before marginalization.
+
+## Example output
+
+![Example FES evolution and basin weights](reports/time_series/dialanine_vacuum_sfpt_seed0.png)
+
+[Example results and figures](reports/README.md) are included. To run the shorter example configuration, use `--protocol example`; `--steps 100 --output smoke/CASE` provides a small dynamics check.

@@ -1,0 +1,162 @@
+{
+  "dialanine_vacuum_replicas": {
+    "base_cases": [
+      "dialanine_vacuum_sfpt",
+      "dialanine_vacuum_metad"
+    ],
+    "replicas": [
+      64,
+      128,
+      256,
+      512,
+      1024
+    ],
+    "production_ps": 50,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "metad_total_initial_hill_eV": 1.28
+  },
+  "dialanine_water_replicas": {
+    "base_cases": [
+      "dialanine_water_sfpt",
+      "dialanine_water_metad"
+    ],
+    "replicas": [
+      64,
+      128,
+      320,
+      512,
+      1024
+    ],
+    "production_ps": 140,
+    "sfpt_seeds_by_R": {
+      "64": [
+        0,
+        1
+      ],
+      "128": [
+        0,
+        1
+      ],
+      "320": [
+        0,
+        2
+      ],
+      "512": [
+        0,
+        2
+      ],
+      "1024": [
+        0,
+        2
+      ]
+    },
+    "metad_seeds": [
+      0,
+      1,
+      2
+    ],
+    "metad_total_initial_hill_eV": 1.28,
+    "note": "Original stored seed counts and coverage are retained in source caches."
+  },
+  "dialanine_vacuum_lambda": {
+    "base_case": "dialanine_vacuum_sfpt",
+    "replicas": 512,
+    "lambdas": [
+      0.02,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ],
+    "production_ps": 50,
+    "seeds": [
+      0
+    ]
+  },
+  "dialanine_water_lambda": {
+    "base_case": "dialanine_water_sfpt",
+    "replicas": 320,
+    "lambdas": [
+      0.02,
+      0.04,
+      0.06,
+      0.08,
+      0.1
+    ],
+    "production_ps": 400,
+    "seeds": [
+      0,
+      1
+    ]
+  },
+  "tetra_alanine_replicas": {
+    "base_case": "tetra_alanine_sfpt",
+    "replicas": [
+      1024,
+      2048,
+      4096,
+      8192
+    ],
+    "production_lambda": 0.075,
+    "production_ps": 500,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "tetra_alanine_lambda": {
+    "base_case": "tetra_alanine_sfpt",
+    "replicas": 2048,
+    "lambdas": [
+      0.03,
+      0.05,
+      0.075,
+      0.1,
+      0.3
+    ],
+    "production_ps": 100,
+    "seeds": [
+      3
+    ]
+  },
+  "rearrangement_metad_replicas": {
+    "base_case": "rearrangement_metad",
+    "replicas": [
+      64,
+      256,
+      512
+    ],
+    "production_ps": 400,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "metad_total_initial_hill_eV": 1.28,
+    "initial_pool_note": "Original scan scripts use the supplied64-member scan ensemble for all R values; the runner selects/repeats configurations using the original linspace index rule."
+  },
+  "rearrangement_metad_hill_height": {
+    "base_case": "rearrangement_metad",
+    "replicas": 256,
+    "hill_height_eV": [
+      0.00125,
+      0.0025,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "production_ps": 400,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "note": "Uses the supplied64-member scan ensemble with the original linspace index rule for256 walkers. Native archived curves preserve every stored time point."
+  }
+}

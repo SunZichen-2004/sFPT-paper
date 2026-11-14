@@ -44,5 +44,21 @@
       "cuda"
     ]
   },
-  "core_final_commit": "7b9ba3f"
+  "core_final_commit": "7b9ba3f",
+  "paper_protocol_tests": {
+    "passed": 13
+  },
+  "bundled_molecular_input_files": {
+    "verified": 109
+  },
+  "paper_fes_data": {
+    "verified_series": 23,
+    "verified_payloads": 714,
+    "source_curve_consistency": "Dipeptide cached FES and reaction WT-MetaD archived basin curves matched; see data/validation.json",
+    "tetra_axis_check": "Each2D marginal projects back to its corresponding1D marginal within2e-5kcal/mol"
+  },
+  "fes_time_reconstruct_smoke": {
+    "sfpt": "passed,5ps window from complete example archive",
+    "metad": "passed,1ps cumulative bias from complete example archive"
+  }
 }
