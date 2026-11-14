@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pick substrate / TS / product from a complete NPZ and write PDBs + a schematic.
+"""Pick substrate / transition-region / product frames and write PDBs + a schematic.
 
 Full box (solute + 334 TIP3P). CVs:
   d1 = O7–C8 (breaking), d2 = C1–C10 (forming).
@@ -112,7 +112,7 @@ def pick_replicas(cv: np.ndarray) -> dict[str, int]:
         (d2 > 1.40) & (d2 < 1.55) & (d1 > 3.2) & (d1 < 5.0),
         (d2 - 1.50) ** 2 + (d1 - 3.6) ** 2,
     )
-    # TS: concerted, both partial ~2.4 Å
+    # Transition-region geometry, selected by CVs rather than a TS optimization.
     i_ts = _best(
         (d1 > 2.05) & (d1 < 2.70) & (d2 > 2.05) & (d2 < 2.70),
         (d1 - 2.40) ** 2 + (d2 - 2.40) ** 2,
@@ -171,12 +171,12 @@ def draw_schematic(
 
     labels = {
         "substrate": "Substrate",
-        "ts": "TS",
+        "ts": "Transition region",
         "product": "Product",
     }
     subtitles = {
         "substrate": r"allyl phenyl ether  ($d_1$ bonded)",
-        "ts": r"concerted Claisen TS",
+        "ts": r"configuration near $d_1=d_2=2.4$ Å",
         "product": r"$o$-allyl phenol  ($d_2$ bonded)",
     }
     order = ["substrate", "ts", "product"]

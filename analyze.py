@@ -30,6 +30,22 @@ WINDOW = {
 }
 
 
+def validate_initial_source(case, config, metadata):
+    """Identify the selected input by its repo path, including after relocation."""
+    expected = config.get("init_npy")
+    actual = metadata.get("init_npy")
+    if expected is None:
+        if actual is not None:
+            raise ValueError(f"{case}: expected initialization from the water box")
+        expected = "experiments/rearrangement_water_fpt/mlmm_box/box.xyz"
+        actual = metadata.get("xyz")
+    if actual is None:
+        raise ValueError(f"{case}: missing initial source metadata")
+    parts = Path(expected).parts
+    if Path(actual).parts[-len(parts) :] != parts:
+        raise ValueError(f"{case}: archive used a different initial ensemble")
+
+
 def system_of(case):
     return case.rsplit("_", 1)[0]
 
@@ -235,9 +251,7 @@ def main():
                     raise ValueError(
                         f"{case}: archive parameter {key} does not match cases.json"
                     )
-            expected_init = (ROOT / config["init_npy"]).resolve()
-            if Path(metadata["init_npy"]).resolve() != expected_init:
-                raise ValueError(f"{case}: archive used a different initial ensemble")
+            validate_initial_source(case, config, metadata)
             if z["cv"].shape[1] != config["replicas"] or "coordinates" not in z:
                 raise ValueError(f"{case}: incomplete ensemble/coordinate output")
             production = z["phase"] == "production"

@@ -1,0 +1,144 @@
+{
+  "verified_input_files": 100,
+  "cases": {
+    "rearrangement_sfpt": {
+      "status": "incomplete"
+    },
+    "dialanine_vacuum_sfpt": {
+      "status": "verified",
+      "archive": "results/dialanine_vacuum_sfpt/trajectory.npz",
+      "bytes": 16806553,
+      "sha256": "40caf3e2002ecc3c038505e7d80738ecd581f3bfc5b9425afef1cbcb964f2478",
+      "cv_shape": [
+        253,
+        256,
+        2
+      ],
+      "coordinates_shape": [
+        253,
+        256,
+        22,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float64",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    },
+    "dialanine_vacuum_metad": {
+      "status": "verified",
+      "archive": "results/dialanine_vacuum_metad/trajectory.npz",
+      "bytes": 19306398,
+      "sha256": "815e150a3cc3700c3be50693442347b908c0b490524d6c44b35cf8f0ab363356",
+      "cv_shape": [
+        251,
+        256,
+        2
+      ],
+      "coordinates_shape": [
+        251,
+        256,
+        22,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float64",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    },
+    "dialanine_water_sfpt": {
+      "status": "verified",
+      "archive": "results/dialanine_water_sfpt/trajectory.npz",
+      "bytes": 526977724,
+      "sha256": "00b5a74893cf33450b1278f590f4d2685978bc49ca2225f5db8b73591e4fd710",
+      "cv_shape": [
+        253,
+        320,
+        2
+      ],
+      "coordinates_shape": [
+        253,
+        320,
+        598,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float32",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    },
+    "dialanine_water_metad": {
+      "status": "pending"
+    },
+    "tetra_alanine_sfpt": {
+      "status": "verified",
+      "archive": "results/tetra_alanine_sfpt/trajectory.npz",
+      "bytes": 129224875,
+      "sha256": "37172fa8eb411a86d9da17abe7f04eabb7776c291f5144e42077f78b823b29e6",
+      "cv_shape": [
+        126,
+        2048,
+        3
+      ],
+      "coordinates_shape": [
+        126,
+        2048,
+        42,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float64",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    },
+    "tetra_alanine_metad": {
+      "status": "verified",
+      "archive": "results/tetra_alanine_metad/trajectory.npz",
+      "bytes": 16856547,
+      "sha256": "7ac86e74117ba32a78ccfef1414ce48ba484cf9d92ba1918cf64e44785b33df8",
+      "cv_shape": [
+        251,
+        64,
+        3
+      ],
+      "coordinates_shape": [
+        251,
+        64,
+        42,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float64",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    },
+    "rearrangement_metad": {
+      "status": "verified",
+      "archive": "results/rearrangement_metad/trajectory.npz",
+      "bytes": 176785246,
+      "sha256": "6e271f38e0f13c4cbc72b803bbd54b11ff6833af9e2c647001beaf581fa5802a",
+      "cv_shape": [
+        251,
+        64,
+        2
+      ],
+      "coordinates_shape": [
+        251,
+        64,
+        1022,
+        3
+      ],
+      "coordinate_dtype": "float32",
+      "final_coordinate_dtype": "float32",
+      "complete": true,
+      "finite_coordinates_and_cvs": true,
+      "final_coordinates_match_last_frame": true
+    }
+  },
+  "verified_cases": 6
+}

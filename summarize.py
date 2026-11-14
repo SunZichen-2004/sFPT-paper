@@ -38,6 +38,36 @@ def main():
             writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
+    lines = [
+        "# Single-seed 25 ps validation",
+        "",
+        f"{len(rows)}/{len(cases)} cases completed and analyzed. Each uses seed 0 and the main-text replica count.",
+        "",
+        "FES RMSE is against the archived **same-length 25 ps** calculation, in kcal/mol. Both surfaces are minimum-shifted; the mask is the original joint or projected FES below 12 kcal/mol. Tetra-alanine has a three-dimensional joint FES; its main projection is phi2/phi3. Other cases use the full two-dimensional FES.",
+        "",
+        "| Case | Replicas | Joint FES RMSE | Main 2D RMSE | New delta G | Original 25 ps delta G | Independent reference delta G |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for row in rows:
+        name = row["case"]
+        lines.append(
+            f"| [{name}]({name}_comparison.png) | {row['replicas']} | "
+            f"{row['joint_fes_rmse_vs_original_kcal_mol']:.3f} | "
+            f"{row['main_projection_rmse_vs_original_kcal_mol']:.3f} | "
+            f"{row['delta_g_kcal_mol']:.3f} | "
+            f"{row['original_25ps_delta_g_kcal_mol']:.3f} | "
+            f"{row['independent_reference_delta_g_kcal_mol']:.3f} |"
+        )
+    lines += [
+        "",
+        "Basin definitions and physical-density reconstruction are shared with the archived comparison. Independent references are umbrella sampling for dialanine and rearrangement, and REMD for tetra-alanine. Short-run agreement with the original 25 ps output does not establish convergence to the long-time paper reference. In particular, the original tetra-alanine sFPT 25 ps delta G is already 1.484 kcal/mol versus REMD 0.301 kcal/mol.",
+        "",
+        "Reaction WT-MetaD has substantial archived run-to-run variation. The three original 25 ps delta G values are -11.661, -7.989 and -7.980 kcal/mol, versus the new -8.191. New FES RMSE against the three runs is 1.995, 0.727 and 0.632 kcal/mol. The main table retains original seed 0; all three comparisons are recorded in `rearrangement_metad_variation.json`. This is descriptive variation, not a confidence interval.",
+        "",
+        "`*_metrics.json` records all marginal errors and the separate paper-reference comparisons. `*_fes.npz` holds reconstructed numerical surfaces; `benchmark_summary.csv` is the machine-readable table. Full trajectory NPZ files remain under local `results/`, with their checksums and shape checks in `archive_integrity.json`.",
+        "",
+    ]
+    out.with_name("README.md").write_text("\n".join(lines))
     print(f"Validated {len(rows)}/{len(cases)} cases. Summary: {out}")
 
 

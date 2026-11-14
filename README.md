@@ -22,7 +22,7 @@ Install the cleaned library branch alongside this repository:
 ```bash
 git clone https://github.com/SunZichen-2004/fp_transformer_torch.git
 cd fp_transformer_torch
-git checkout cleanup/public-core-20261114
+git checkout 988838d
 pip install -e ".[simulation,mlip,analysis,dev]"
 cd ../sFPT-paper
 pip install -r requirements.txt
@@ -75,9 +75,13 @@ A local `checkpoint.pt` is written once per ps during a running calculation. Rep
 ```bash
 python analyze.py --references-only --device cuda
 python analyze.py --device cuda
+python validate_archives.py
+python summarize.py
 ```
 
 The analysis reconstructs the full physical joint distribution before marginalization. It reports one- and two-dimensional FES RMSE in kcal/mol, the basin free-energy difference, and its difference from both the original 25 ps calculation and the independent paper reference. Figures compare new 25 ps, original 25 ps, and long-time paper/REMD surfaces. All metrics and scientific plots are written to `reports/`.
+
+See the [benchmark results](reports/README.md) for the current comparisons. `validate_archives.py` additionally verifies all bundled molecular-input checksums, full coordinate/CV shapes and finite values, and equality of the final coordinates with the last stored frame. It records trajectory SHA-256 checksums in `reports/archive_integrity.json`.
 
 sFPT final-window lengths are 5 ps (vacuum dipeptide), 10 ps (water), 20 ps (tetrapeptide) and 4 ps (reaction). The original and new 25 ps results use identical reconstruction windows. Metadynamics uses the cumulative bias at 25 ps. RMSE masks and minimum-shift conventions are recorded with the metrics. The paper's basin-error guides are reported separately; they are not confidence intervals or proof of full FES convergence.
 
@@ -91,7 +95,7 @@ The retained reaction structural postprocessing reads the same complete archive:
 python experiments/rearrangement_water_fpt/extract_reaction_pdb.py --trajectory results/rearrangement_sfpt/trajectory.npz
 ```
 
-It writes selected substrate/transition-region/product PDBs, a PyMOL script and a structural schematic. The neural maximum-likelihood FES fitter remains in the core library and has been smoke-tested directly on the consolidated NPZ format.
+It writes selected substrate/transition-region/product PDBs, a PyMOL script and a structural schematic. The transition-region frame is selected by its CVs; it is not an optimized transition state. The neural maximum-likelihood FES fitter remains in the core library and has been smoke-tested directly on the consolidated NPZ format.
 
 ## Archived variation and random-number streams
 
