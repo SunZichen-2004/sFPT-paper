@@ -68,5 +68,13 @@
   "paper_static_bias_reconstruction": {
     "mean_bias_weight_identity": "passed",
     "actual_npz_mean_bias_smoke": "passed"
+  },
+  "portable_paper_checkout": {
+    "molecular_input_files_verified": 109,
+    "paper_cli_parsers_passed": 8,
+    "tests_passed": 17,
+    "data_files_verified": 714,
+    "time_series_verified": 23,
+    "procedure": "Export committed Git tree to independent directory; verify inputs/data and test paper commands without source-checkout paths"
   }
 }
